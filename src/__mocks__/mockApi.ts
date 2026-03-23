@@ -37,9 +37,25 @@ function nextId(items: { [key: string]: any }[], prefix: string): string {
 
 export const mockApi = {
   // --- Auth ---
-  login: async (_idToken: string) => {
+  login: async (credentials: string) => {
     await delay(LATENCY);
-    return { status: 'ok', data: { token: 'mock-jwt-token', user: { email: 'aldrin@atc.xyz', name: 'Aldrin Stellus', role: 'admin' } } };
+    // Parse email:password format
+    const [email, password] = credentials.split(':');
+    // Mock users (in production this checks Google Sheet)
+    const users: Record<string, { password: string; name: string; role: string }> = {
+      'aldrin@atc.xyz': { password: 'admin123', name: 'Aldrin Stellus', role: 'admin' },
+      'cecil@muzigal.com': { password: 'cecil123', name: 'Cecil', role: 'admin' },
+      'giri@muzigal.com': { password: 'giri123', name: 'Giri', role: 'admin' },
+      'demo@zoo.crm': { password: 'demo', name: 'Demo User', role: 'admin' },
+    };
+    const user = users[email];
+    if (!user || user.password !== password) {
+      return { status: 'error', message: 'Invalid email or password.' };
+    }
+    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
+    const payload = btoa(JSON.stringify({ email, name: user.name, role: user.role, iat: Math.floor(Date.now() / 1000), exp: Math.floor(Date.now() / 1000) + 86400 }));
+    const fakeJwt = `${header}.${payload}.mock-signature`;
+    return { status: 'ok', data: { token: fakeJwt, user: { email, name: user.name, role: user.role } } };
   },
 
   // --- Students ---

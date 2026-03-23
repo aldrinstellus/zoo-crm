@@ -13,15 +13,16 @@ interface ApiResponse<T = unknown> {
 }
 
 function getToken(): string | null {
-  return localStorage.getItem('muzigal_token');
+  return localStorage.getItem('zoo_crm_token');
 }
 
 export function setToken(token: string) {
-  localStorage.setItem('muzigal_token', token);
+  localStorage.setItem('zoo_crm_token', token);
 }
 
 export function clearToken() {
-  localStorage.removeItem('muzigal_token');
+  localStorage.removeItem('zoo_crm_token');
+  localStorage.removeItem('zoo_crm_user');
 }
 
 async function request<T>(
@@ -66,9 +67,9 @@ async function request<T>(
 
 // --- Auth ---
 export const api = {
-  login: (idToken: string) =>
+  login: (credentials: string) =>
     request<{ token: string; user: { email: string; name: string; role: string } }>(
-      'login', 'GET', { id_token: idToken }
+      'login', 'GET', { credentials }
     ),
 
   // --- Students ---

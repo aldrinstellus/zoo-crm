@@ -332,7 +332,7 @@ describe('Persona: System Administrator (Aldrin)', () => {
 
   describe('Authentication', () => {
     it('should login as admin', async () => {
-      const res = await mockApi.login('mock-google-token');
+      const res = await mockApi.login('aldrin@atc.xyz:admin123');
       expect(res.data.user.role).toBe('admin');
       expect(res.data.user.email).toBe('aldrin@atc.xyz');
       expect(res.data.token).toBeDefined();

@@ -229,8 +229,8 @@ describe('Mock API — WhatsApp', () => {
 
 describe('Mock API — Auth', () => {
   it('should login and return JWT', async () => {
-    const res = await mockApi.login('mock-google-id-token');
-    expect(res.data.token).toBe('mock-jwt-token');
+    const res = await mockApi.login('aldrin@atc.xyz:admin123');
+    expect(res.data.token).toContain('.');
     expect(res.data.user.role).toBe('admin');
     expect(res.data.user.email).toBe('aldrin@atc.xyz');
   });

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -10,8 +10,10 @@ import {
   BarChart3,
   MessageCircle,
   Settings,
+  LogOut,
 } from 'lucide-react';
 import { cn, getInitials } from '../../lib/utils';
+import { useAuth } from '../../auth/useAuth';
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -26,13 +28,40 @@ const navItems = [
   { to: '/admin/settings', icon: Settings, label: 'Settings' },
 ];
 
+function UserSection() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const name = user?.name || 'Admin User';
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  return (
+    <div className="border-t border-zinc-100 px-4 py-3">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-zinc-200 text-zinc-600 flex items-center justify-center text-xs font-semibold">
+          {getInitials(name)}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-zinc-900 truncate">{name}</p>
+          <p className="text-xs text-zinc-400 truncate">{user?.email || 'Admin'}</p>
+        </div>
+        <button onClick={handleLogout} className="p-1.5 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors" title="Sign out">
+          <LogOut size={16} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
 }
 
 export default function Sidebar({ open, onClose }: SidebarProps) {
-  const userName = 'Admin User';
 
   return (
     <>
@@ -81,17 +110,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         {/* User section */}
-        <div className="border-t border-zinc-100 px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-zinc-200 text-zinc-600 flex items-center justify-center text-xs font-semibold">
-              {getInitials(userName)}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-zinc-900 truncate">{userName}</p>
-              <p className="text-xs text-zinc-400">Admin</p>
-            </div>
-          </div>
-        </div>
+        <UserSection />
       </aside>
     </>
   );

@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AppShell from './components/layout/AppShell';
+import ProtectedRoute from './auth/ProtectedRoute';
+import Login from './pages/login';
 import Dashboard from './pages/admin/index';
 import Students from './pages/admin/students';
 import Classes from './pages/admin/classes';
@@ -17,9 +19,14 @@ export default function App() {
       <Routes>
         {/* Public */}
         <Route path="/" element={<PublicEnrollment />} />
+        <Route path="/login" element={<Login />} />
 
-        {/* Admin */}
-        <Route path="/admin" element={<AppShell />}>
+        {/* Admin (Protected) */}
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AppShell />
+          </ProtectedRoute>
+        }>
           <Route index element={<Dashboard />} />
           <Route path="students" element={<Students />} />
           <Route path="classes" element={<Classes />} />
