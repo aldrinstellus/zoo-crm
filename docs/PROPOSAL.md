@@ -535,10 +535,40 @@ Email: aldrin@atc.xyz
 
 ---
 
+<div class="page-break"></div>
+
+# 13. Phase 2: Full CRM Application (Delivered)
+
+Phase 2 is complete. What began as an 8-file WhatsApp notification system has grown into a full-featured CRM for Muzigal. The backend expanded to 12 Google Apps Script files (4,115 LOC) with new modules for API endpoints, role-based authentication, payment tracking, and reporting. Five new Google Sheet tabs (Classes, Teachers, Payments, Enrollment, Attendance) support the additional functionality, and 25+ new REST API endpoints serve the frontend.
+
+The frontend is a React 19 + TypeScript + Tailwind CSS application deployed on Cloudflare Pages at no cost. It includes 10 admin pages (Dashboard, Students, Teachers, Classes, Enrollment, Attendance, Payments, Reports, Settings, and a public enrollment form) tested across 5 personas (Receptionist, Teacher, Owner, Parent, Admin) with 109 passing tests across 4 test suites.
+
+### Phase 2 at a Glance
+
+<div class="stat-grid">
+<div class="stat-box"><div class="num">6,729</div><div class="label">Total Lines of Code</div></div>
+<div class="stat-box"><div class="num">12 + 22</div><div class="label">Backend + Frontend Files</div></div>
+<div class="stat-box"><div class="num">109</div><div class="label">Tests Passing</div></div>
+<div class="stat-box"><div class="num">10</div><div class="label">Admin Pages</div></div>
+</div>
+
+<div class="stat-grid">
+<div class="stat-box"><div class="num">5</div><div class="label">Personas Tested</div></div>
+<div class="stat-box"><div class="num">25+</div><div class="label">API Endpoints</div></div>
+<div class="stat-box"><div class="num">₹0</div><div class="label">Infrastructure Cost</div></div>
+<div class="stat-box"><div class="num">2</div><div class="label">Repos (Backend + Frontend)</div></div>
+</div>
+
+| | |
+|---|---|
+| **Frontend repo** | [github.com/aldrinstellus/muzigal-crm](https://github.com/aldrinstellus/muzigal-crm) |
+| **Live app** | [muzigal-crm.pages.dev](https://muzigal-crm.pages.dev) |
+| **Tech stack** | React 19, TypeScript, Tailwind CSS, Vite, Recharts, Cloudflare Pages + Workers |
+
 <div style="text-align: center; margin-top: 60px; color: #999; font-size: 9pt;">
 
 Built with precision by Aldrin Stellus — Designed for Muzigal, Bangalore
 
-WhatsApp Class Notification System v1.0 — March 2026
+WhatsApp Class Notification System v2.0 — March 2026
 
 </div>

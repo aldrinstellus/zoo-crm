@@ -6,6 +6,32 @@ Built for [Muzigal](https://muzigal.com) -- a musical academy in Whitefield, Ban
 
 ---
 
+## Phase 2: Full CRM Application
+
+The backend has expanded from 8 files (1,615 LOC) to **12 files (4,115 LOC)** with four new modules:
+
+| New File | Purpose |
+|----------|---------|
+| `api.gs` | 25+ REST API endpoints for the CRM frontend |
+| `auth.gs` | Role-based authentication (Receptionist, Teacher, Owner, Parent, Admin) |
+| `payments.gs` | Payment tracking, fee management, and receipt generation |
+| `reports.gs` | Attendance summaries, enrollment stats, and revenue reports |
+
+**New Google Sheet tabs**: Classes, Teachers, Payments, Enrollment, Attendance
+
+**Frontend**: A full React + TypeScript + Tailwind CRM deployed on Cloudflare Pages with 10 admin pages and a public enrollment form.
+
+| | |
+|---|---|
+| **Frontend repo** | [aldrinstellus/muzigal-crm](https://github.com/aldrinstellus/muzigal-crm) |
+| **Live app** | [muzigal-crm.pages.dev](https://muzigal-crm.pages.dev) |
+| **Admin dashboard** | [muzigal-crm.pages.dev/admin](https://muzigal-crm.pages.dev/admin) |
+| **Tests** | 109 passing across 4 suites, 5 personas |
+| **Total system** | 6,729 LOC (4,115 backend + 2,614 frontend) |
+| **Infrastructure cost** | Rs. 0/month |
+
+---
+
 ## Features
 
 - **Real-time change alerts** -- Teacher, room, time, or date changes trigger instant WhatsApp notifications to all affected students
