@@ -73,7 +73,74 @@ function createSheetStructure() {
     });
   }
 
-  Logger.log('Sheet structure created successfully.');
+  // Tab 6: Classes (Phase 2)
+  var classesSheet = getOrCreateSheet_(ss, 'Classes');
+  if (classesSheet.getLastRow() === 0) {
+    classesSheet.appendRow([
+      'ClassID', 'Instrument', 'Level', 'Name', 'Teacher', 'Room',
+      'Day', 'Time', 'Duration', 'MaxStudents', 'CurrentStudents', 'Fee', 'Status'
+    ]);
+    classesSheet.getRange('A1:M1').setFontWeight('bold');
+  }
+
+  // Tab 7: Teachers (Phase 2)
+  var teachersSheet = getOrCreateSheet_(ss, 'Teachers');
+  if (teachersSheet.getLastRow() === 0) {
+    teachersSheet.appendRow([
+      'TeacherID', 'Name', 'Phone', 'Email', 'Instruments',
+      'Availability', 'Status', 'JoinDate'
+    ]);
+    teachersSheet.getRange('A1:H1').setFontWeight('bold');
+  }
+
+  // Tab 8: Payments (Phase 2)
+  var paymentsSheet = getOrCreateSheet_(ss, 'Payments');
+  if (paymentsSheet.getLastRow() === 0) {
+    paymentsSheet.appendRow([
+      'PaymentID', 'StudentID', 'Amount', 'Date', 'DueDate',
+      'Status', 'Method', 'RazorpayRef', 'Month', 'Notes'
+    ]);
+    paymentsSheet.getRange('A1:J1').setFontWeight('bold');
+  }
+
+  // Tab 9: Enrollment (Phase 2)
+  var enrollmentSheet = getOrCreateSheet_(ss, 'Enrollment');
+  if (enrollmentSheet.getLastRow() === 0) {
+    enrollmentSheet.appendRow([
+      'InquiryID', 'Name', 'Phone', 'Email', 'Instrument',
+      'AgeGroup', 'Source', 'Status', 'DemoDate', 'AssignedTo', 'Notes', 'CreatedAt'
+    ]);
+    enrollmentSheet.getRange('A1:L1').setFontWeight('bold');
+  }
+
+  // Tab 10: Attendance (Phase 2)
+  var attendanceSheet = getOrCreateSheet_(ss, 'Attendance');
+  if (attendanceSheet.getLastRow() === 0) {
+    attendanceSheet.appendRow([
+      'AttendanceID', 'StudentID', 'ClassID', 'Date', 'Status', 'MarkedBy'
+    ]);
+    attendanceSheet.getRange('A1:F1').setFontWeight('bold');
+  }
+
+  // Add Phase 2 config defaults if not present
+  var configData = configSheet.getDataRange().getValues();
+  var existingKeys = configData.map(function(row) { return row[0]; });
+  var phase2Defaults = [
+    ['JWT_SECRET', '(placeholder)'],
+    ['ADMIN_EMAILS', '(placeholder)'],
+    ['RAZORPAY_KEY_ID', '(placeholder)'],
+    ['RAZORPAY_KEY_SECRET', '(placeholder)'],
+    ['ACADEMY_NAME', 'Muzigal'],
+    ['ACADEMY_PHONE', '+919403890891'],
+    ['ACADEMY_EMAIL', 'muzigal.borewell@gmail.com']
+  ];
+  phase2Defaults.forEach(function(row) {
+    if (existingKeys.indexOf(row[0]) === -1) {
+      configSheet.appendRow(row);
+    }
+  });
+
+  Logger.log('Sheet structure created successfully (Phase 1 + Phase 2 tabs).');
 }
 
 /**

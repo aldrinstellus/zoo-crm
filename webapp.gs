@@ -42,16 +42,47 @@ function doPost(e) {
 
     var action = body.action;
 
+    // --- Phase 1: WhatsApp Actions ---
     switch (action) {
       case 'send_override':
         return handleOverride_(body);
-
       case 'send_daily':
         return handleDailyTrigger_(body);
-
       case 'send_test':
         return handleTestSend_(body);
+    }
 
+    // --- Phase 2: CRM Write Actions (JWT or secret auth) ---
+    // For CRM writes, accept either webhook secret (already validated above) or JWT token
+    switch (action) {
+      case 'create_student':
+        return jsonResponse_({ status: 'ok', data: createStudent(body.data) });
+      case 'update_student':
+        return jsonResponse_({ status: 'ok', data: updateStudent(body.id, body.data) });
+      case 'deactivate_student':
+        return jsonResponse_({ status: 'ok', data: deactivateStudent(body.id) });
+      case 'create_class':
+        return jsonResponse_({ status: 'ok', data: createClass(body.data) });
+      case 'update_class':
+        return jsonResponse_({ status: 'ok', data: updateClass(body.id, body.data) });
+      case 'create_teacher':
+        return jsonResponse_({ status: 'ok', data: createTeacher(body.data) });
+      case 'update_teacher':
+        return jsonResponse_({ status: 'ok', data: updateTeacher(body.id, body.data) });
+      case 'create_inquiry':
+        return jsonResponse_({ status: 'ok', data: createInquiry(body.data) });
+      case 'update_inquiry':
+        return jsonResponse_({ status: 'ok', data: updateInquiry(body.id, body.data) });
+      case 'convert_inquiry':
+        return jsonResponse_({ status: 'ok', data: convertInquiryToStudent(body.id) });
+      case 'mark_attendance':
+        return jsonResponse_({ status: 'ok', data: markAttendance(body.data) });
+      case 'record_payment':
+        return jsonResponse_({ status: 'ok', data: recordPayment(body.data) });
+      case 'create_payment_link':
+        return jsonResponse_({ status: 'ok', data: createPaymentLink(body.studentId, body.amount, body.description) });
+      case 'generate_invoices':
+        return jsonResponse_({ status: 'ok', data: generateMonthlyInvoices(body.month) });
       default:
         return jsonResponse_({ success: false, message: 'Unknown action: ' + action }, 400);
     }
@@ -137,6 +168,86 @@ function doGet(e) {
     });
   }
 
+  // --- Phase 2: Auth ---
+  if (action === 'login') {
+    var idToken = e.parameter.id_token;
+    if (!idToken) return jsonResponse_({ success: false, message: 'Missing id_token' });
+    return jsonResponse_(handleLogin(idToken));
+  }
+
+  // --- Phase 2: CRM API (Students) ---
+  if (action === 'list_students') {
+    var filters = {};
+    if (e.parameter.class) filters.class = e.parameter.class;
+    if (e.parameter.status) filters.status = e.parameter.status;
+    if (e.parameter.instrument) filters.instrument = e.parameter.instrument;
+    if (e.parameter.search) filters.search = e.parameter.search;
+    return jsonResponse_({ status: 'ok', data: listStudents(filters) });
+  }
+  if (action === 'get_student') {
+    return jsonResponse_({ status: 'ok', data: getStudent(e.parameter.id) });
+  }
+
+  // --- Phase 2: CRM API (Classes) ---
+  if (action === 'list_classes') {
+    var filters = {};
+    if (e.parameter.instrument) filters.instrument = e.parameter.instrument;
+    if (e.parameter.teacher) filters.teacher = e.parameter.teacher;
+    if (e.parameter.status) filters.status = e.parameter.status;
+    return jsonResponse_({ status: 'ok', data: listClasses(filters) });
+  }
+  if (action === 'get_class') {
+    return jsonResponse_({ status: 'ok', data: getClass(e.parameter.id) });
+  }
+
+  // --- Phase 2: CRM API (Teachers) ---
+  if (action === 'list_teachers') {
+    var filters = {};
+    if (e.parameter.instrument) filters.instrument = e.parameter.instrument;
+    if (e.parameter.status) filters.status = e.parameter.status;
+    return jsonResponse_({ status: 'ok', data: listTeachers(filters) });
+  }
+
+  // --- Phase 2: CRM API (Enrollment) ---
+  if (action === 'list_inquiries') {
+    var filters = {};
+    if (e.parameter.status) filters.status = e.parameter.status;
+    if (e.parameter.source) filters.source = e.parameter.source;
+    return jsonResponse_({ status: 'ok', data: listInquiries(filters) });
+  }
+
+  // --- Phase 2: CRM API (Payments) ---
+  if (action === 'list_payments') {
+    var filters = {};
+    if (e.parameter.studentId) filters.studentId = e.parameter.studentId;
+    if (e.parameter.status) filters.status = e.parameter.status;
+    if (e.parameter.month) filters.month = e.parameter.month;
+    return jsonResponse_({ status: 'ok', data: listPayments(filters) });
+  }
+  if (action === 'pending_payments') {
+    return jsonResponse_({ status: 'ok', data: getPendingPayments() });
+  }
+
+  // --- Phase 2: CRM API (Attendance) ---
+  if (action === 'get_attendance') {
+    return jsonResponse_({ status: 'ok', data: getAttendance(e.parameter.classId, e.parameter.date) });
+  }
+
+  // --- Phase 2: CRM API (Reports) ---
+  if (action === 'dashboard_stats') {
+    return jsonResponse_({ status: 'ok', data: getDashboardStats() });
+  }
+  if (action === 'report_revenue') {
+    return jsonResponse_({ status: 'ok', data: getRevenueReport(e.parameter.start, e.parameter.end) });
+  }
+  if (action === 'report_attendance') {
+    return jsonResponse_({ status: 'ok', data: getAttendanceReport({ studentId: e.parameter.studentId, classId: e.parameter.classId }) });
+  }
+  if (action === 'report_enrollment') {
+    return jsonResponse_({ status: 'ok', data: getEnrollmentReport() });
+  }
+
+  // Default: health check
   var triggers = ScriptApp.getProjectTriggers();
   return jsonResponse_({
     status: 'ok',
