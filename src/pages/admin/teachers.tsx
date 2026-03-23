@@ -8,18 +8,18 @@ import Modal from '../../components/ui/Modal';
 type Teacher = Record<string, unknown>;
 
 function TeacherCard({ teacher }: { teacher: Teacher }) {
-  const instruments = (teacher.instruments as string[] | string) || [];
+  const instruments = (teacher.Instruments as string[] | string) || [];
   const instrumentList = Array.isArray(instruments) ? instruments : String(instruments).split(',').map(s => s.trim()).filter(Boolean);
 
   return (
     <div className="bg-white border border-zinc-200 rounded-xl p-5 hover:border-zinc-300 transition-colors">
       <div className="flex items-start gap-3 mb-4">
         <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-semibold shrink-0">
-          {getInitials((teacher.name as string) || 'T')}
+          {getInitials((teacher.Name as string) || 'T')}
         </div>
         <div className="flex-1 min-w-0">
-          <h3 className="text-sm font-semibold text-zinc-900 truncate">{String(teacher.name || '')}</h3>
-          <Badge variant={teacher.status as string}>{String(teacher.status || 'Active')}</Badge>
+          <h3 className="text-sm font-semibold text-zinc-900 truncate">{String(teacher.Name || '')}</h3>
+          <Badge variant={teacher.Status as string}>{String(teacher.Status || 'Active')}</Badge>
         </div>
       </div>
 
@@ -34,23 +34,23 @@ function TeacherCard({ teacher }: { teacher: Teacher }) {
       )}
 
       <div className="space-y-1.5 text-sm text-zinc-600">
-        {Boolean(teacher.phone) && (
+        {Boolean(teacher.Phone) && (
           <div className="flex items-center gap-2">
             <Phone size={14} className="text-zinc-400" />
-            <span>{formatPhone(String(teacher.phone))}</span>
+            <span>{formatPhone(String(teacher.Phone))}</span>
           </div>
         )}
-        {Boolean(teacher.email) && (
+        {Boolean(teacher.Email) && (
           <div className="flex items-center gap-2">
             <Mail size={14} className="text-zinc-400" />
-            <span className="truncate">{String(teacher.email)}</span>
+            <span className="truncate">{String(teacher.Email)}</span>
           </div>
         )}
       </div>
 
-      {Boolean(teacher.availability) && (
+      {Boolean(teacher.Availability) && (
         <p className="mt-3 pt-3 border-t border-zinc-100 text-xs text-zinc-400">
-          {String(teacher.availability)}
+          {String(teacher.Availability)}
         </p>
       )}
     </div>
@@ -70,8 +70,11 @@ function TeacherForm({ onClose, onSave }: { onClose: () => void; onSave: () => v
     setError('');
     try {
       const res = await api.createTeacher({
-        ...form,
-        instruments: form.instruments.split(',').map(s => s.trim()).filter(Boolean),
+        Name: form.name,
+        Phone: form.phone,
+        Email: form.email,
+        Instruments: form.instruments.split(',').map(s => s.trim()).filter(Boolean).join(','),
+        Availability: form.availability,
       });
       if (res.status === 'ok') { onSave(); onClose(); }
       else setError(res.message || 'Failed to add teacher');

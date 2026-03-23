@@ -12,37 +12,37 @@ function ClassCard({ cls }: { cls: ClassItem }) {
     <div className="bg-white border border-zinc-200 rounded-xl p-5 hover:border-zinc-300 transition-colors">
       <div className="flex items-start justify-between mb-3">
         <div>
-          <h3 className="text-sm font-semibold text-zinc-900">{String(cls.instrument || '')}</h3>
-          <p className="text-xs text-zinc-500 mt-0.5">{String(cls.level || '')}</p>
+          <h3 className="text-sm font-semibold text-zinc-900">{String(cls.Instrument || '')}</h3>
+          <p className="text-xs text-zinc-500 mt-0.5">{String(cls.Level || '')}</p>
         </div>
-        <Badge variant={cls.status as string}>{String(cls.status || 'Active')}</Badge>
+        <Badge variant={cls.Status as string}>{String(cls.Status || 'Active')}</Badge>
       </div>
       <div className="space-y-2 text-sm text-zinc-600">
-        {Boolean(cls.teacher) && (
+        {Boolean(cls.Teacher) && (
           <div className="flex items-center gap-2">
             <Users size={14} className="text-zinc-400" />
-            <span>{String(cls.teacher)}</span>
+            <span>{String(cls.Teacher)}</span>
           </div>
         )}
-        {Boolean(cls.room) && (
+        {Boolean(cls.Room) && (
           <div className="flex items-center gap-2">
             <MapPin size={14} className="text-zinc-400" />
-            <span>{String(cls.room)}</span>
+            <span>{String(cls.Room)}</span>
           </div>
         )}
-        {Boolean(cls.day || cls.time) && (
+        {Boolean(cls.Day || cls.Time) && (
           <div className="flex items-center gap-2">
             <Clock size={14} className="text-zinc-400" />
-            <span>{[cls.day, cls.time].filter(Boolean).map(String).join(' / ')}</span>
+            <span>{[cls.Day, cls.Time].filter(Boolean).map(String).join(' / ')}</span>
           </div>
         )}
       </div>
       <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-100">
         <span className="text-xs text-zinc-400">
-          {String(cls.CurrentStudents ?? cls.enrolledCount ?? 0)}/{String(cls.MaxStudents ?? cls.maxStudents ?? '-')} students
+          {String(cls.CurrentStudents ?? 0)}/{String(cls.MaxStudents ?? '-')} students
         </span>
         <span className="text-sm font-semibold text-zinc-900">
-          {formatCurrency(Number(cls.fee) || 0)}/mo
+          {formatCurrency(Number(cls.Fee) || 0)}/mo
         </span>
       </div>
     </div>
@@ -62,9 +62,15 @@ function ClassForm({ onClose, onSave }: { onClose: () => void; onSave: () => voi
     setError('');
     try {
       const res = await api.createClass({
-        ...form,
-        maxStudents: Number(form.maxStudents) || 0,
-        fee: Number(form.fee) || 0,
+        Instrument: form.instrument,
+        Level: form.level,
+        Name: `${form.instrument} - ${form.level}`,
+        Teacher: form.teacher,
+        Room: form.room,
+        Day: form.day,
+        Time: form.time,
+        MaxStudents: Number(form.maxStudents) || 0,
+        Fee: Number(form.fee) || 0,
       });
       if (res.status === 'ok') { onSave(); onClose(); }
       else setError(res.message || 'Failed to create class');

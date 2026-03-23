@@ -58,7 +58,7 @@ export default function Attendance() {
           setRecords(data);
           const initial: Record<string, Status> = {};
           data.forEach((r) => {
-            initial[r.studentId as string] = (r.status as Status) || 'Present';
+            initial[r.StudentID as string] = (r.Status as Status) || 'Present';
           });
           setStatuses(initial);
         } else {
@@ -75,13 +75,13 @@ export default function Attendance() {
     setSuccess('');
     try {
       const attendance = records.map((r) => ({
-        studentId: r.studentId as string,
-        studentName: r.studentName as string,
-        status: statuses[r.studentId as string] || 'Present',
+        StudentID: r.StudentID as string,
+        StudentName: r.StudentName as string,
+        Status: statuses[r.StudentID as string] || 'Present',
       }));
       const res = await api.markAttendance({
-        classId: selectedClass,
-        date,
+        ClassID: selectedClass,
+        Date: date,
         records: attendance,
       });
       if (res.status === 'ok') {
@@ -114,8 +114,8 @@ export default function Attendance() {
             >
               <option value="">Select class</option>
               {classes.map((cls, i) => (
-                <option key={i} value={cls.id as string}>
-                  {cls.instrument as string} - {cls.level as string} ({cls.day as string})
+                <option key={i} value={cls.ClassID as string}>
+                  {cls.Instrument as string} - {cls.Level as string} ({cls.Day as string})
                 </option>
               ))}
             </select>
@@ -159,7 +159,7 @@ export default function Attendance() {
             <>
               <div className="space-y-2">
                 {records.map((record) => {
-                  const studentId = record.studentId as string;
+                  const studentId = record.StudentID as string;
                   const current = statuses[studentId] || 'Present';
                   return (
                     <div
@@ -167,7 +167,7 @@ export default function Attendance() {
                       className="flex items-center justify-between py-2.5 px-3 rounded-lg hover:bg-zinc-50 transition-colors"
                     >
                       <span className="text-sm font-medium text-zinc-900">
-                        {record.studentName as string}
+                        {(record.StudentName as string) || (record.Name as string) || studentId}
                       </span>
                       <div className="flex gap-1.5">
                         {statusOptions.map((status) => (

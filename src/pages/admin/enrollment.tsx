@@ -16,28 +16,28 @@ function InquiryCard({
   inquiry: Inquiry;
   onMove: (id: string, stage: string) => void;
 }) {
-  const id = inquiry.id as string;
-  const currentStage = (inquiry.stage as string) || 'New';
+  const id = inquiry.InquiryID as string;
+  const currentStage = (inquiry.Status as string) || 'New';
   const currentIndex = STAGES.indexOf(currentStage as typeof STAGES[number]);
 
   return (
     <div className="bg-white border border-zinc-200 rounded-lg p-3 hover:border-zinc-300 transition-colors">
       <div className="flex items-start justify-between mb-2">
-        <p className="text-sm font-medium text-zinc-900">{String(inquiry.name || '')}</p>
+        <p className="text-sm font-medium text-zinc-900">{String(inquiry.Name || '')}</p>
       </div>
-      {Boolean(inquiry.phone) && (
+      {Boolean(inquiry.Phone) && (
         <div className="flex items-center gap-1.5 text-xs text-zinc-500 mb-1">
           <Phone size={12} />
-          <span>{formatPhone(String(inquiry.phone))}</span>
+          <span>{formatPhone(String(inquiry.Phone))}</span>
         </div>
       )}
-      {Boolean(inquiry.instrument) && (
-        <p className="text-xs text-zinc-500 mb-1">{String(inquiry.instrument)}</p>
+      {Boolean(inquiry.Instrument) && (
+        <p className="text-xs text-zinc-500 mb-1">{String(inquiry.Instrument)}</p>
       )}
-      {Boolean(inquiry.date) && (
+      {Boolean(inquiry.DemoDate) && (
         <div className="flex items-center gap-1.5 text-xs text-zinc-400">
           <Calendar size={12} />
-          <span>{formatDate(String(inquiry.date))}</span>
+          <span>{formatDate(String(inquiry.DemoDate))}</span>
         </div>
       )}
       {currentStage !== 'Enrolled' && currentStage !== 'Lost' && currentIndex < STAGES.length - 2 && (
@@ -65,7 +65,15 @@ function InquiryForm({ onClose, onSave }: { onClose: () => void; onSave: () => v
     setSaving(true);
     setError('');
     try {
-      const res = await api.createInquiry({ ...form, stage: 'New' });
+      const res = await api.createInquiry({
+        Name: form.name,
+        Phone: form.phone,
+        Email: form.email,
+        Instrument: form.instrument,
+        AgeGroup: form.ageGroup,
+        Source: form.source,
+        Status: 'New',
+      });
       if (res.status === 'ok') { onSave(); onClose(); }
       else setError(res.message || 'Failed to create inquiry');
     } catch (err) {
@@ -159,9 +167,9 @@ export default function Enrollment() {
 
   const handleMove = async (id: string, stage: string) => {
     try {
-      await api.updateInquiry(id, { stage });
+      await api.updateInquiry(id, { Status: stage });
       setInquiries((prev) =>
-        prev.map((inq) => (inq.id === id ? { ...inq, stage } : inq))
+        prev.map((inq) => (inq.InquiryID === id ? { ...inq, Status: stage } : inq))
       );
     } catch {
       // silent fail
@@ -170,7 +178,7 @@ export default function Enrollment() {
 
   const grouped = STAGES.reduce(
     (acc, stage) => {
-      acc[stage] = inquiries.filter((inq) => (inq.stage as string || 'New') === stage);
+      acc[stage] = inquiries.filter((inq) => (inq.Status as string || 'New') === stage);
       return acc;
     },
     {} as Record<string, Inquiry[]>

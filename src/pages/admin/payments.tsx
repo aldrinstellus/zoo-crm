@@ -24,10 +24,14 @@ function PaymentForm({ onClose, onSave }: { onClose: () => void; onSave: () => v
     setError('');
     try {
       const res = await api.recordPayment({
-        ...form,
-        amount: Number(form.amount),
-        status: 'Paid',
-        date: new Date().toISOString(),
+        StudentID: form.studentId,
+        StudentName: form.studentName,
+        Amount: Number(form.amount),
+        Method: form.method,
+        RazorpayRef: form.razorpayRef,
+        Notes: form.notes,
+        Status: 'Paid',
+        Date: new Date().toISOString().split('T')[0],
       });
       if (res.status === 'ok') { onSave(); onClose(); }
       else setError(res.message || 'Failed to record payment');
@@ -104,12 +108,12 @@ export default function Payments() {
   useEffect(() => { load(); }, []);
 
   const sendReminder = async (payment: Payment) => {
-    const id = payment.id as string;
+    const id = payment.PaymentID as string;
     setSending(id);
     try {
-      const phone = (payment.phone as string) || (payment.studentPhone as string) || '';
-      const name = (payment.studentName as string) || '';
-      const amount = formatCurrency(Number(payment.amount) || 0);
+      const phone = (payment.Phone as string) || '';
+      const name = (payment.StudentName as string) || (payment.StudentID as string) || '';
+      const amount = formatCurrency(Number(payment.Amount) || 0);
       await api.sendOverride(
         'phone', phone,
         `Hi ${name}, your payment of ${amount} is due. Please clear it at the earliest. - Muzigal`,
@@ -124,45 +128,45 @@ export default function Payments() {
 
   const filtered = tab === 'All'
     ? payments
-    : payments.filter((p) => (p.status as string) === tab);
+    : payments.filter((p) => (p.Status as string) === tab);
 
   const columns: Column<Payment>[] = [
     {
-      key: 'studentName',
+      key: 'StudentID',
       header: 'Student',
-      render: (row) => <span className="font-medium text-zinc-900">{row.studentName as string}</span>,
+      render: (row) => <span className="font-medium text-zinc-900">{(row.StudentName as string) || (row.StudentID as string)}</span>,
     },
     {
-      key: 'amount',
+      key: 'Amount',
       header: 'Amount',
-      render: (row) => formatCurrency(Number(row.amount) || 0),
+      render: (row) => formatCurrency(Number(row.Amount) || 0),
     },
     {
-      key: 'dueDate',
+      key: 'DueDate',
       header: 'Due Date',
-      render: (row) => formatDate((row.dueDate as string) || ''),
+      render: (row) => formatDate((row.DueDate as string) || ''),
     },
     {
-      key: 'status',
+      key: 'Status',
       header: 'Status',
-      render: (row) => <Badge variant={row.status as string}>{row.status as string}</Badge>,
+      render: (row) => <Badge variant={row.Status as string}>{row.Status as string}</Badge>,
     },
-    { key: 'method', header: 'Method' },
-    { key: 'razorpayRef', header: 'Razorpay Ref' },
+    { key: 'Method', header: 'Method' },
+    { key: 'RazorpayRef', header: 'Razorpay Ref' },
     {
       key: 'actions',
       header: '',
       render: (row) => {
-        const status = row.status as string;
+        const status = row.Status as string;
         if (status === 'Paid') return null;
         return (
           <button
             onClick={(e) => { e.stopPropagation(); sendReminder(row); }}
-            disabled={sending === (row.id as string)}
+            disabled={sending === (row.PaymentID as string)}
             className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-lg transition-colors disabled:opacity-50"
           >
             <MessageCircle size={12} />
-            {sending === (row.id as string) ? 'Sending...' : 'Remind'}
+            {sending === (row.PaymentID as string) ? 'Sending...' : 'Remind'}
           </button>
         );
       },

@@ -11,28 +11,31 @@ type Student = Record<string, unknown>;
 
 const columns: Column<Student>[] = [
   {
-    key: 'name',
+    key: 'Name',
     header: 'Name',
     render: (row) => (
-      <span className="font-medium text-zinc-900">{row.name as string}</span>
+      <span className="font-medium text-zinc-900">{row.Name as string}</span>
     ),
   },
   {
-    key: 'phone',
+    key: 'Phone',
     header: 'Phone',
-    render: (row) => formatPhone((row.phone as string) || ''),
+    render: (row) => formatPhone((row.Phone as string) || ''),
   },
-  { key: 'class', header: 'Class' },
-  { key: 'instrument', header: 'Instrument' },
+  { key: 'Class', header: 'Class' },
+  { key: 'Instrument', header: 'Instrument' },
   {
-    key: 'status',
+    key: 'Active',
     header: 'Status',
-    render: (row) => <Badge variant={row.status as string}>{row.status as string}</Badge>,
+    render: (row) => {
+      const status = row.Active ? 'Active' : 'Inactive';
+      return <Badge variant={status}>{status}</Badge>;
+    },
   },
   {
-    key: 'enrolledDate',
+    key: 'EnrollmentDate',
     header: 'Enrolled',
-    render: (row) => formatDate((row.enrolledDate as string) || ''),
+    render: (row) => formatDate((row.EnrollmentDate as string) || ''),
   },
 ];
 
@@ -48,7 +51,15 @@ function StudentForm({ onClose, onSave }: { onClose: () => void; onSave: () => v
     setSaving(true);
     setError('');
     try {
-      const res = await api.createStudent(form);
+      const res = await api.createStudent({
+        Name: form.name,
+        Phone: form.phone,
+        Email: form.email,
+        Instrument: form.instrument,
+        Class: form.class,
+        ParentName: form.parentName,
+        ParentPhone: form.parentPhone,
+      });
       if (res.status === 'ok') {
         onSave();
         onClose();
@@ -121,15 +132,15 @@ function StudentForm({ onClose, onSave }: { onClose: () => void; onSave: () => v
 
 function StudentDetail({ student, onClose }: { student: Student; onClose: () => void }) {
   const fields = [
-    { label: 'Name', value: student.name as string },
-    { label: 'Phone', value: formatPhone((student.phone as string) || '') },
-    { label: 'Email', value: student.email as string },
-    { label: 'Instrument', value: student.instrument as string },
-    { label: 'Class', value: student.class as string },
-    { label: 'Status', value: student.status as string },
-    { label: 'Enrolled', value: formatDate((student.enrolledDate as string) || '') },
-    { label: 'Parent Name', value: student.parentName as string },
-    { label: 'Parent Phone', value: formatPhone((student.parentPhone as string) || '') },
+    { label: 'Name', value: student.Name as string },
+    { label: 'Phone', value: formatPhone((student.Phone as string) || '') },
+    { label: 'Email', value: student.Email as string },
+    { label: 'Instrument', value: student.Instrument as string },
+    { label: 'Class', value: student.Class as string },
+    { label: 'Status', value: student.Active ? 'Active' : 'Inactive' },
+    { label: 'Enrolled', value: formatDate((student.EnrollmentDate as string) || '') },
+    { label: 'Parent Name', value: student.ParentName as string },
+    { label: 'Parent Phone', value: formatPhone((student.ParentPhone as string) || '') },
   ];
 
   return (
@@ -174,10 +185,10 @@ export default function Students() {
     if (!search) return true;
     const q = search.toLowerCase();
     return (
-      String(s.name || '').toLowerCase().includes(q) ||
-      String(s.phone || '').includes(q) ||
-      String(s.instrument || '').toLowerCase().includes(q) ||
-      String(s.class || '').toLowerCase().includes(q)
+      String(s.Name || '').toLowerCase().includes(q) ||
+      String(s.Phone || '').includes(q) ||
+      String(s.Instrument || '').toLowerCase().includes(q) ||
+      String(s.Class || '').toLowerCase().includes(q)
     );
   });
 

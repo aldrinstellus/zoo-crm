@@ -20,10 +20,14 @@ export default function PublicEnrollment() {
     setError('');
     try {
       const res = await api.createInquiry({
-        ...form,
-        stage: 'New',
-        source: 'Website',
-        date: new Date().toISOString(),
+        Name: form.name,
+        Phone: form.phone,
+        Email: form.email,
+        Instrument: form.instrument,
+        AgeGroup: form.ageGroup,
+        Status: 'New',
+        Source: 'Website',
+        CreatedAt: new Date().toISOString(),
       });
       if (res.status === 'ok') {
         setSubmitted(true);
