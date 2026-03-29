@@ -5,6 +5,7 @@ import { CATEGORY_LABELS } from "@/lib/types";
 import { getShareUrls } from "@/lib/social";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MaskHappy,
@@ -106,14 +107,16 @@ export function ActivityCard({
       {/* Hero Image */}
       {heroImage ? (
         <div className="relative h-48 sm:h-52 overflow-hidden">
-          <Image
-            src={heroImage}
-            alt={activity.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            onError={() => setImgError(true)}
-          />
+          <Link href={`/activities/${activity.year}/${activity.id}`}>
+            <Image
+              src={heroImage}
+              alt={activity.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              onError={() => setImgError(true)}
+            />
+          </Link>
           {/* Gradient overlay for readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
@@ -204,12 +207,13 @@ export function ActivityCard({
 
         {/* Title + Share */}
         <div className="flex items-start justify-between gap-2">
-          <h3
-            className="text-base font-bold text-[var(--color-text)] leading-snug"
+          <Link
+            href={`/activities/${activity.year}/${activity.id}`}
+            className="text-base font-bold text-[var(--color-text)] leading-snug hover:text-[var(--color-primary)] transition-colors"
             style={{ fontFamily: "var(--font-display)" }}
           >
             {activity.title}
-          </h3>
+          </Link>
           <button
             onClick={() => setShowShare(!showShare)}
             className="shrink-0 p-1.5 rounded-full transition-all duration-200 hover:scale-110"

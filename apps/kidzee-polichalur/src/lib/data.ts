@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import type { Activity } from "./types";
+import { CATEGORY_LABELS } from "./types";
 
 const DATA_FILE = path.join(process.cwd(), "data", "activities.json");
 
@@ -62,4 +63,48 @@ export async function deleteActivity(id: string): Promise<boolean> {
   if (filtered.length === all.length) return false;
   await fs.writeFile(DATA_FILE, JSON.stringify(filtered, null, 2));
   return true;
+}
+
+export async function getActivitiesByCategory(category: string): Promise<Activity[]> {
+  const all = await getActivities();
+  return all
+    .filter((a) => a.category === category)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+export async function getActivitiesPaginated(
+  page: number = 1,
+  limit: number = 10,
+  filters?: { year?: number; category?: string; q?: string }
+): Promise<{ activities: Activity[]; total: number; page: number; totalPages: number }> {
+  let all = await getActivities();
+  if (filters?.year) all = all.filter((a) => a.year === filters.year);
+  if (filters?.category) all = all.filter((a) => a.category === filters.category);
+  if (filters?.q) {
+    const q = filters.q.toLowerCase();
+    all = all.filter(
+      (a) =>
+        a.title.toLowerCase().includes(q) ||
+        a.description.toLowerCase().includes(q) ||
+        a.tags.some((t) => t.toLowerCase().includes(q)) ||
+        CATEGORY_LABELS[a.category].toLowerCase().includes(q)
+    );
+  }
+  all.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const total = all.length;
+  const totalPages = Math.ceil(total / limit);
+  const start = (page - 1) * limit;
+  return { activities: all.slice(start, start + limit), total, page, totalPages };
+}
+
+export async function searchActivities(query: string): Promise<Activity[]> {
+  const all = await getActivities();
+  const q = query.toLowerCase();
+  return all.filter(
+    (a) =>
+      a.title.toLowerCase().includes(q) ||
+      a.description.toLowerCase().includes(q) ||
+      a.tags.some((t) => t.toLowerCase().includes(q)) ||
+      CATEGORY_LABELS[a.category].toLowerCase().includes(q)
+  );
 }

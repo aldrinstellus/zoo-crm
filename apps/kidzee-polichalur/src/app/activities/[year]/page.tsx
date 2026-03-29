@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
 import { getActivitiesByYear, getAvailableYears } from "@/lib/data";
 import { ActivityCard } from "@/components/activity-card";
 import { YearSelector } from "@/components/year-selector";
 import { MagnifyingGlass } from "@phosphor-icons/react/ssr";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ year: string }>;
+}): Promise<Metadata> {
+  const { year } = await params;
+  return {
+    title: `${year} Activities`,
+    description: `Explore Kidzee Polichalur's preschool activities from ${year}. Dance performances, sports events, festivals, and creative workshops.`,
+  };
+}
 
 export const dynamic = "force-dynamic";
 

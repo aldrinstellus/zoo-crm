@@ -9,10 +9,12 @@ import { AutoRickshaw } from "@/components/illustrations/auto-rickshaw";
 import { PalmTree } from "@/components/illustrations/palm-tree";
 import { KolamPattern } from "@/components/illustrations/kolam-pattern";
 import { PeacockFeather } from "@/components/illustrations/peacock-feather";
+import { CategoryFilter } from "@/components/category-filter";
 import {
   ArrowRight,
   Sparkle,
 } from "@phosphor-icons/react/dist/ssr";
+import { OrganizationSchema } from "@/components/structured-data";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +27,7 @@ export default async function HomePage() {
 
   return (
     <div>
+      <OrganizationSchema />
       {/* Hero Section -- purple gradient (brand DNA) with Chennai/India motifs */}
       <section className="relative bg-gradient-to-br from-[#4A2366] via-[#65318E] to-[#8B5CB8] text-white py-16 sm:py-24 px-4 overflow-hidden">
         {/* Animated shimmer overlay */}
@@ -138,9 +141,19 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Browse by Category */}
+      <section className="py-12 px-4">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold font-[var(--font-display)] text-[var(--color-text)] mb-6">
+            Browse by Category
+          </h2>
+          <CategoryFilter />
+        </div>
+      </section>
+
       {/* Browse by Year -- with peacock feather illustration */}
       {years.length > 0 && (
-        <section className="relative py-12 px-4 overflow-hidden">
+        <section className="relative py-12 px-4 bg-[var(--color-bg-brand)] overflow-hidden">
           <div className="absolute bottom-4 right-[4%] text-[var(--color-primary)] opacity-[0.10] pointer-events-none hidden sm:block" aria-hidden="true">
             <PeacockFeather className="w-16 h-auto" />
           </div>

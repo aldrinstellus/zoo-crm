@@ -51,6 +51,23 @@ export async function getSocialPostsByActivity(activityId: string): Promise<Soci
   return all.filter((p) => p.activityId === activityId);
 }
 
+export async function deleteSocialPost(id: string): Promise<boolean> {
+  const all = await getSocialPosts();
+  const filtered = all.filter((p) => p.id !== id);
+  if (filtered.length === all.length) return false;
+  await fs.writeFile(DATA_FILE, JSON.stringify(filtered, null, 2));
+  return true;
+}
+
+export async function updateSocialPost(id: string, updates: Partial<SocialPost>): Promise<SocialPost | null> {
+  const all = await getSocialPosts();
+  const index = all.findIndex((p) => p.id === id);
+  if (index === -1) return null;
+  all[index] = { ...all[index], ...updates };
+  await fs.writeFile(DATA_FILE, JSON.stringify(all, null, 2));
+  return all[index];
+}
+
 export function generateCaption(title: string, description: string, tags: string[]): string {
   const lines: string[] = [];
 

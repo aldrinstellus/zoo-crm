@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { addSocialPost, getSocialPosts, generateCaption } from "@/lib/social-posts";
+import { addSocialPost, getSocialPosts, generateCaption, deleteSocialPost, updateSocialPost } from "@/lib/social-posts";
 import type { SocialPlatform, SocialPost } from "@/lib/social-posts";
 
 export async function GET(request: NextRequest) {
@@ -71,4 +71,44 @@ export async function POST(request: NextRequest) {
     },
     { status: 201 }
   );
+}
+
+export async function DELETE(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.ADMIN_PASSWORD}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  if (!id) {
+    return NextResponse.json({ error: "ID required" }, { status: 400 });
+  }
+
+  const deleted = await deleteSocialPost(id);
+  if (!deleted) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json({ success: true });
+}
+
+export async function PATCH(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  if (authHeader !== `Bearer ${process.env.ADMIN_PASSWORD}`) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const { id, ...updates } = body;
+  if (!id) {
+    return NextResponse.json({ error: "ID required" }, { status: 400 });
+  }
+
+  const updated = await updateSocialPost(id, updates);
+  if (!updated) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  return NextResponse.json(updated);
 }

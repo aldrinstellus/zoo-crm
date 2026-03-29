@@ -4,14 +4,41 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "Kidzee Polichalur - Preschool Activities",
-  description:
-    "Explore the exciting activities and events at Kidzee Polichalur preschool. Annual days, sports, art, festivals, and more!",
-  openGraph: {
-    title: "Kidzee Polichalur - Preschool Activities",
-    description: "Nurturing young minds with love, creativity, and joy.",
-    type: "website",
+  title: {
+    default: "Kidzee Polichalur — Preschool Activities & Events",
+    template: "%s — Kidzee Polichalur",
   },
+  description:
+    "Explore exciting preschool activities, celebrations, and events at Kidzee Polichalur, Tamil Nadu. Annual days, sports events, festivals, and more.",
+  keywords: [
+    "Kidzee",
+    "Polichalur",
+    "preschool",
+    "activities",
+    "nursery",
+    "Tamil Nadu",
+    "kindergarten",
+  ],
+  authors: [{ name: "Kidzee Polichalur" }],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "Kidzee Polichalur",
+    images: [
+      {
+        url: "/kidzee-logo.svg",
+        width: 173,
+        height: 56,
+        alt: "Kidzee Polichalur",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "https://kidzee-polichalur.vercel.app"
+  ),
 };
 
 export default function RootLayout({
