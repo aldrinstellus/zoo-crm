@@ -349,7 +349,7 @@ export default function AdminDashboardPage() {
                               className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full"
                               style={{ backgroundColor: `${accentColor}18` }}
                             >
-                              <CategoryIcon size={20} weight="fill" style={{ color: accentColor }} />
+                              <CategoryIcon size={20} weight="fill" color={accentColor} />
                             </span>
                             <div className="min-w-0">
                               <h3 className="font-semibold text-[var(--color-text)] text-sm truncate">
