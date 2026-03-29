@@ -72,7 +72,7 @@ What started as an automated WhatsApp notification system has grown into a **com
 
 | Component | What It Does | Access |
 |-----------|-------------|--------|
-| **Muzigal CRM** | Web-based dashboard for managing students, classes, teachers, payments, enrollment, attendance, and reports | [zoo-crm.pages.dev](https://zoo-crm.pages.dev) |
+| **Muzigal CRM** | Web-based dashboard for managing students, classes, teachers, payments, enrollment, attendance, and reports | [zoo-crm-app.vercel.app](https://zoo-crm-app.vercel.app) |
 | **WhatsApp Notifications** | Automated class reminders, instant schedule change alerts, emergency broadcasts — all via WhatsApp | Google Sheet + auto-triggers |
 
 Together, they give Muzigal a **zero-cost infrastructure** management system that handles everything from a parent's first enquiry to daily class reminders — without needing any commercial software subscriptions.
@@ -102,7 +102,7 @@ The CRM is the **brain** — it's where you manage the academy. WhatsApp notific
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                      MUZIGAL CRM                             │
-│              (Web App — zoo-crm.pages.dev)                   │
+│              (Web App — zoo-crm-app.vercel.app)                   │
 │                                                              │
 │   Dashboard  Students  Teachers  Classes  Enrollment         │
 │   Attendance  Payments  Reports  Settings                    │
@@ -154,9 +154,9 @@ The CRM is the **brain** — it's where you manage the academy. WhatsApp notific
 
 # 3. Muzigal CRM — The Management Dashboard
 
-The CRM is a modern web application accessible from any browser — desktop, tablet, or phone. It's hosted on Cloudflare Pages at zero cost.
+The CRM is a modern web application accessible from any browser — desktop, tablet, or phone. It's hosted on Vercel at zero cost.
 
-**Live URL**: [zoo-crm.pages.dev](https://zoo-crm.pages.dev)
+**Live URL**: [zoo-crm-app.vercel.app](https://zoo-crm-app.vercel.app)
 
 ### 10 Admin Pages
 
@@ -284,7 +284,7 @@ Toggle AI on or off in the CRM Settings page or the Google Sheet Config tab. The
 | Layer | Technology | Cost |
 |-------|-----------|------|
 | **CRM Frontend** | React 19, TypeScript, Tailwind CSS, Vite, Recharts | Free |
-| **CRM Hosting** | Cloudflare Pages + Workers | Free |
+| **CRM Hosting** | Vercel | Free |
 | **Backend** | Google Apps Script (12 files, 4,115 LOC) | Free |
 | **Database** | Google Sheets (10 tabs) | Free |
 | **WhatsApp** | Meta Cloud API v19.0 | ~₹0.35/message |
@@ -322,8 +322,8 @@ Toggle AI on or off in the CRM Settings page or the Google Sheet Config tab. The
 
 | Component | Monthly Cost |
 |-----------|-------------|
-| Cloudflare Pages (CRM hosting) | ₹0 |
-| Cloudflare Workers (API proxy) | ₹0 |
+| Vercel (CRM hosting) | ₹0 |
+| Vercel Serverless Functions (API proxy) | ₹0 |
 | Google Apps Script (backend) | ₹0 |
 | Google Sheets (database) | ₹0 |
 | **Infrastructure total** | **₹0/month** |
@@ -363,7 +363,7 @@ The only recurring cost is WhatsApp message delivery at ~₹0.35 per message (In
 
 <div class="flow-box">
 
-1. **Parent** fills out the enrollment form at `zoo-crm.pages.dev/enroll` (or receptionist fills it in)
+1. **Parent** fills out the enrollment form at `zoo-crm-app.vercel.app/enroll` (or receptionist fills it in)
 2. **Receptionist** sees the enquiry in the CRM Enrollment Pipeline
 3. **Receptionist** schedules a demo class, moves the lead to "Demo Scheduled"
 4. **Teacher** runs the trial session, marks attendance in the CRM
@@ -448,7 +448,7 @@ The system has been tested across **5 personas** covering every role that intera
 
 | Deliverable | Description |
 |------------|-------------|
-| **Muzigal CRM** (Frontend) | React web app — 10 admin pages + public enrollment form, deployed on Cloudflare Pages |
+| **Muzigal CRM** (Frontend) | React web app — 10 admin pages + public enrollment form, deployed on Vercel |
 | **Backend API** | Google Apps Script — 12 files, 25+ endpoints, WhatsApp integration, data management |
 | **WhatsApp Automation** | 7 message types, daily reminders, real-time alerts, emergency broadcasts |
 | **Test Suite** | 109 tests across 4 suites, 5 personas |
@@ -467,9 +467,9 @@ The system has been tested across **5 personas** covering every role that intera
 
 | What | URL |
 |------|-----|
-| CRM Application | [zoo-crm.pages.dev](https://zoo-crm.pages.dev) |
+| CRM Application | [zoo-crm-app.vercel.app](https://zoo-crm-app.vercel.app) |
 | Demo Login | Email: `demo@zoo.crm` / Password: `demo` |
-| Public Enrollment Form | [zoo-crm.pages.dev/enroll](https://zoo-crm.pages.dev/enroll) |
+| Public Enrollment Form | [zoo-crm-app.vercel.app/enroll](https://zoo-crm-app.vercel.app/enroll) |
 
 ### Repositories (Private)
 

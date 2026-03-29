@@ -1,8 +1,8 @@
 # Muzigal CRM
 
-Custom music academy CRM built for [Muzigal](https://muzigal.com), Whitefield, Bangalore. React + TypeScript + Tailwind CSS on Cloudflare Pages, backed by Google Apps Script + Google Sheets. Zero infrastructure cost.
+Custom music academy CRM built for [Muzigal](https://muzigal.com), Whitefield, Bangalore. React + TypeScript + Tailwind CSS on Vercel, backed by Google Apps Script + Google Sheets. Zero infrastructure cost.
 
-**Live**: [zoo-crm.pages.dev](https://zoo-crm.pages.dev)
+**Live**: [zoo-crm-app.vercel.app](https://zoo-crm-app.vercel.app)
 
 ---
 
@@ -50,7 +50,7 @@ Custom music academy CRM built for [Muzigal](https://muzigal.com), Whitefield, B
 | Build tool | Vite |
 | Charts | Recharts |
 | Icons | lucide-react |
-| Hosting | Cloudflare Pages + Workers |
+| Hosting | Vercel |
 | Backend | Google Apps Script + Google Sheets ([repo](https://github.com/aldrinstellus/whatsapp-class-notifications)) |
 | Testing | Vitest + React Testing Library |
 
@@ -151,8 +151,8 @@ This is the frontend half of a two-repo system:
 
 | Component | Monthly Cost |
 |-----------|-------------|
-| Cloudflare Pages hosting | Rs. 0 |
-| Cloudflare Workers | Rs. 0 |
+| Vercel hosting | Rs. 0 |
+| Vercel Serverless Functions | Rs. 0 |
 | Google Apps Script backend | Rs. 0 |
 | Google Sheets database | Rs. 0 |
 | **Infrastructure total** | **Rs. 0/month** |

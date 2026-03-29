@@ -1,12 +1,12 @@
 # ZOO CRM
 
-Generic CRM platform for academies, schools, and training centers. Zero infrastructure cost (Google Apps Script + Google Sheets backend, Cloudflare Pages frontend).
+Generic CRM platform for academies, schools, and training centers. Zero infrastructure cost (Google Apps Script + Google Sheets backend, Vercel frontend).
 
 ## Monorepo Structure
 
 ```
 apps/
-├── crm/        React + Vite frontend (Cloudflare Pages)
+├── crm/        React + Vite frontend (Vercel)
 ├── docs/       Next.js documentation portal (Vercel)
 └── backend/    Google Apps Script backend (clasp)
 ```
@@ -24,7 +24,7 @@ npm run build      # production build
 npm run test       # 109 tests
 ```
 
-**Deploy:** Cloudflare Pages — https://zoo-crm.pages.dev
+**Deploy:** Vercel — https://zoo-crm-app.vercel.app
 
 ### Documentation Portal (`apps/docs/`)
 Next.js 16 + Supabase. Access-controlled docs with admin approval workflow.
@@ -57,7 +57,7 @@ clasp open         # open in browser
 
 | Layer | Technology | Cost |
 |-------|-----------|------|
-| Frontend | React, Vite, Tailwind | Free (Cloudflare Pages) |
+| Frontend | React, Vite, Tailwind | Free (Vercel) |
 | Backend | Google Apps Script | Free |
 | Database | Google Sheets | Free |
 | Docs | Next.js, Supabase | Free (Vercel + Supabase free tier) |

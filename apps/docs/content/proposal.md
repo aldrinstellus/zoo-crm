@@ -541,7 +541,7 @@ Email: aldrin@atc.xyz
 
 Phase 2 is complete. What began as an 8-file WhatsApp notification system has grown into a full-featured CRM for Muzigal. The backend expanded to 12 Google Apps Script files (4,115 LOC) with new modules for API endpoints, role-based authentication, payment tracking, and reporting. Five new Google Sheet tabs (Classes, Teachers, Payments, Enrollment, Attendance) support the additional functionality, and 25+ new REST API endpoints serve the frontend.
 
-The frontend is a React 19 + TypeScript + Tailwind CSS application deployed on Cloudflare Pages at no cost. It includes 10 admin pages (Dashboard, Students, Teachers, Classes, Enrollment, Attendance, Payments, Reports, Settings, and a public enrollment form) tested across 5 personas (Receptionist, Teacher, Owner, Parent, Admin) with 109 passing tests across 4 test suites.
+The frontend is a React 19 + TypeScript + Tailwind CSS application deployed on Vercel at no cost. It includes 10 admin pages (Dashboard, Students, Teachers, Classes, Enrollment, Attendance, Payments, Reports, Settings, and a public enrollment form) tested across 5 personas (Receptionist, Teacher, Owner, Parent, Admin) with 109 passing tests across 4 test suites.
 
 ### Phase 2 at a Glance
 
@@ -562,8 +562,8 @@ The frontend is a React 19 + TypeScript + Tailwind CSS application deployed on C
 | | |
 |---|---|
 | **Frontend repo** | [github.com/aldrinstellus/muzigal-crm](https://github.com/aldrinstellus/muzigal-crm) |
-| **Live app** | [muzigal-crm.pages.dev](https://muzigal-crm.pages.dev) |
-| **Tech stack** | React 19, TypeScript, Tailwind CSS, Vite, Recharts, Cloudflare Pages + Workers |
+| **Live app** | [zoo-crm-app.vercel.app](https://zoo-crm-app.vercel.app) |
+| **Tech stack** | React 19, TypeScript, Tailwind CSS, Vite, Recharts, Vercel |
 
 <div style="text-align: center; margin-top: 60px; color: #999; font-size: 9pt;">
 

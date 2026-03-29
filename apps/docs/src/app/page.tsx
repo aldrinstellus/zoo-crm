@@ -69,7 +69,7 @@ export default async function Home() {
       <div className="max-w-4xl mx-auto px-6 -mt-6">
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-5 flex flex-wrap gap-4 text-sm">
           <a
-            href="https://zoo-crm.pages.dev"
+            href="https://zoo-crm-app.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 font-medium"
@@ -77,7 +77,7 @@ export default async function Home() {
             Live CRM &rarr;
           </a>
           <a
-            href="https://zoo-crm.pages.dev/enroll"
+            href="https://zoo-crm-app.vercel.app/enroll"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 hover:text-blue-800 font-medium"
