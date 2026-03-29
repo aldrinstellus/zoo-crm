@@ -7,7 +7,7 @@ Generic CRM platform for academies, schools, and training centers. Zero infrastr
 ```
 apps/
 ├── crm/                 React + Vite CRM frontend (Vercel)
-├── docs/                Next.js documentation portal (Vercel)
+├── muzigal-borewell/    Muzigal docs portal (Vercel)
 ├── backend/             Google Apps Script backend (clasp)
 └── kidzee-polichalur/   Next.js preschool activity platform (Vercel)
 ```
@@ -27,11 +27,11 @@ npm run test       # 109 tests
 
 **Deploy:** Vercel — https://zoo-crm-app.vercel.app
 
-### Documentation Portal (`apps/docs/`)
+### Muzigal Docs Portal (`apps/muzigal-borewell/`)
 Next.js 16 + Supabase. Access-controlled docs with admin approval workflow.
 
 ```bash
-cd apps/docs
+cd apps/muzigal-borewell
 npm install
 npm run dev        # localhost:3000
 npm run build
