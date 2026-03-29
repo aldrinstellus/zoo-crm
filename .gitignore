@@ -32,3 +32,4 @@ exports/*.pdf
 .idea/
 *.sw?
 .claude/worktrees/
+.vercel
