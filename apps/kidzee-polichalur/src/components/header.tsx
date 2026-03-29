@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
-import { GraduationCap, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 
 const NAV_ITEMS = [
@@ -17,13 +18,19 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-gradient-to-r from-[var(--color-accent-warm)] via-[var(--color-orange)] to-[var(--color-pink)] shadow-lg sticky top-0 z-50">
+    <header className="bg-[var(--color-primary)] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
-            <GraduationCap className="w-8 h-8" />
-            <span className="hidden sm:inline">Kidzee Polichalur</span>
-            <span className="sm:hidden">Kidzee</span>
+            <Image
+              src="/kidzee-logo.svg"
+              alt="Kidzee"
+              width={36}
+              height={36}
+              className="brightness-0 invert"
+            />
+            <span className="hidden sm:inline font-[var(--font-display)]">Kidzee Polichalur</span>
+            <span className="sm:hidden font-[var(--font-display)]">Kidzee</span>
           </Link>
 
           {/* Desktop nav */}
@@ -33,7 +40,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200",
+                  "px-4 py-2 rounded-[var(--radius-blob)] text-sm font-semibold transition-all duration-200",
                   pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
                     ? "bg-white text-[var(--color-primary)] shadow-md"
                     : "text-white hover:bg-white/20"
