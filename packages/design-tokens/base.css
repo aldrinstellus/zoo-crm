@@ -280,7 +280,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  color: var(--color-text);
 }
 
 /* ── Focus visible on all interactive elements ── */
