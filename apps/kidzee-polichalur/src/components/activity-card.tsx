@@ -106,7 +106,7 @@ export function ActivityCard({
     >
       {/* Hero Image */}
       {heroImage ? (
-        <div className="relative h-48 sm:h-52 overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden">
           <Link href={`/activities/${activity.year}/${activity.id}`}>
             <Image
               src={heroImage}

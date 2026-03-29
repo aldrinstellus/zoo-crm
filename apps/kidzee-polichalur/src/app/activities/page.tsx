@@ -36,7 +36,7 @@ export default async function ActivitiesPage({
   return (
     <div>
       <div className="py-8 px-4 bg-[var(--color-bg-brand)]">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto">
           <div className="text-center mb-6">
             <h1
               className="text-3xl sm:text-4xl font-extrabold text-[var(--color-text)] mb-3"
@@ -89,7 +89,7 @@ export default async function ActivitiesPage({
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
               {activities.map((activity, i) => (
                 <ActivityCard key={activity.id} activity={activity} index={i} />
               ))}
