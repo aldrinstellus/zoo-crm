@@ -17,7 +17,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 shadow-lg sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-[var(--color-accent-warm)] via-[var(--color-orange)] to-[var(--color-pink)] shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl">
@@ -35,7 +35,7 @@ export function Header() {
                 className={cn(
                   "px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200",
                   pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
-                    ? "bg-white text-orange-600 shadow-md"
+                    ? "bg-white text-[var(--color-primary)] shadow-md"
                     : "text-white hover:bg-white/20"
                 )}
               >

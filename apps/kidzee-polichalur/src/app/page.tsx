@@ -15,10 +15,10 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-yellow-300 via-orange-300 to-pink-400 text-white py-16 sm:py-24 px-4">
+      <section className="bg-gradient-to-br from-[var(--color-accent-warm)] via-[var(--color-orange)] to-[var(--color-pink)] text-white py-16 sm:py-24 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <div className="text-6xl sm:text-8xl mb-6">🎓</div>
-          <h1 className="text-4xl sm:text-6xl font-extrabold mb-4 drop-shadow-lg">
+          <h1 className="text-4xl sm:text-6xl font-bold mb-4 drop-shadow-lg">
             Kidzee Polichalur
           </h1>
           <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto mb-8">
@@ -28,7 +28,7 @@ export default async function HomePage() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link
               href="/activities"
-              className="inline-flex items-center gap-2 bg-white text-orange-600 px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 bg-white text-[var(--color-primary)] px-6 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all"
             >
               Explore Activities <ArrowRight className="w-5 h-5" />
             </Link>
@@ -55,9 +55,9 @@ export default async function HomePage() {
               key={stat.label}
               className="bg-white rounded-2xl p-5 text-center shadow-md border border-gray-100 hover:shadow-lg transition-shadow"
             >
-              <stat.icon className="w-8 h-8 text-orange-500 mx-auto mb-2" />
-              <div className="text-2xl font-extrabold text-gray-800">{stat.value}</div>
-              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+              <stat.icon className="w-8 h-8 text-[var(--color-orange)] mx-auto mb-2" />
+              <div className="text-2xl font-bold font-[var(--font-display)] text-[var(--color-text)]">{stat.value}</div>
+              <div className="text-xs text-[var(--color-text-secondary)] mt-1">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -67,12 +67,12 @@ export default async function HomePage() {
       <section className="py-12 px-4">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800">
+            <h2 className="text-2xl sm:text-3xl font-bold font-[var(--font-display)] text-[var(--color-text)]">
               Recent Activities
             </h2>
             <Link
               href="/activities"
-              className="text-orange-500 hover:text-orange-600 font-semibold text-sm flex items-center gap-1"
+              className="text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] font-semibold text-sm flex items-center gap-1"
             >
               View All <ArrowRight className="w-4 h-4" />
             </Link>
@@ -81,7 +81,7 @@ export default async function HomePage() {
           {recentActivities.length === 0 ? (
             <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
               <div className="text-5xl mb-4">🌟</div>
-              <p className="text-gray-500 text-lg">No activities yet!</p>
+              <p className="text-[var(--color-text-secondary)] text-lg">No activities yet!</p>
               <p className="text-gray-400 text-sm mt-1">Activities will appear here once uploaded by admin.</p>
             </div>
           ) : (
@@ -96,9 +96,9 @@ export default async function HomePage() {
 
       {/* Browse by Year */}
       {years.length > 0 && (
-        <section className="py-12 px-4 bg-gradient-to-r from-blue-50 to-purple-50">
+        <section className="py-12 px-4 bg-gradient-to-r from-[var(--color-primary-light)]/10 to-[var(--color-primary)]/10">
           <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-800 mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold font-[var(--font-display)] text-[var(--color-text)] mb-6">
               Browse by Year
             </h2>
             <div className="flex flex-wrap gap-3 justify-center">

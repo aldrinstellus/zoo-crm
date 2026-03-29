@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-500 text-white mt-auto">
+    <footer className="bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-dark)] to-[#2D1540] text-white mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -37,7 +37,7 @@ export function Footer() {
 
         <div className="border-t border-white/20 mt-8 pt-6 text-center text-sm text-white/60">
           <p className="flex items-center justify-center gap-1">
-            Made with <Heart className="w-4 h-4 text-red-300 fill-red-300" /> for Kidzee Polichalur
+            Made with <Heart className="w-4 h-4 text-[var(--color-accent)] fill-[var(--color-accent)]" /> for Kidzee Polichalur
           </p>
           <p className="mt-1">&copy; {new Date().getFullYear()} Kidzee Polichalur. All rights reserved.</p>
         </div>

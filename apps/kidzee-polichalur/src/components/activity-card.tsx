@@ -42,10 +42,10 @@ export function ActivityCard({ activity, index = 0 }: { activity: Activity; inde
             </span>
           </div>
 
-          <h3 className="text-lg font-bold text-gray-800 mb-2">{activity.title}</h3>
-          <p className="text-gray-600 text-sm leading-relaxed mb-3">{activity.description}</p>
+          <h3 className="text-lg font-bold text-[var(--color-text)] mb-2">{activity.title}</h3>
+          <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-3">{activity.description}</p>
 
-          <div className="flex items-center gap-2 text-xs text-gray-500">
+          <div className="flex items-center gap-2 text-xs text-[var(--color-text-secondary)]">
             <Calendar className="w-3.5 h-3.5" />
             <span>{new Date(activity.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
           </div>
@@ -53,7 +53,7 @@ export function ActivityCard({ activity, index = 0 }: { activity: Activity; inde
           {activity.tags.length > 0 && (
             <div className="flex flex-wrap gap-1.5 mt-3">
               {activity.tags.map((tag) => (
-                <span key={tag} className="text-xs bg-white/50 text-gray-600 px-2 py-0.5 rounded-full">
+                <span key={tag} className="text-xs bg-white/50 text-[var(--color-text-secondary)] px-2 py-0.5 rounded-full">
                   #{tag}
                 </span>
               ))}
@@ -63,7 +63,7 @@ export function ActivityCard({ activity, index = 0 }: { activity: Activity; inde
 
         <button
           onClick={() => setShowShare(!showShare)}
-          className="p-2 rounded-full bg-white/60 hover:bg-white transition-colors text-gray-600 hover:text-orange-500"
+          className="p-2 rounded-full bg-white/60 hover:bg-white transition-colors text-[var(--color-text-secondary)] hover:text-[var(--color-orange)]"
           aria-label="Share activity"
         >
           <Share2 className="w-4 h-4" />
@@ -73,7 +73,7 @@ export function ActivityCard({ activity, index = 0 }: { activity: Activity; inde
       {/* Share panel */}
       {showShare && (
         <div className="mt-4 pt-4 border-t border-gray-200/50">
-          <p className="text-xs font-semibold text-gray-500 mb-2">Share this activity:</p>
+          <p className="text-xs font-semibold text-[var(--color-text-secondary)] mb-2">Share this activity:</p>
           <div className="flex flex-wrap gap-2">
             <a
               href={shareUrls.facebook}
@@ -135,7 +135,7 @@ export function ActivityCard({ activity, index = 0 }: { activity: Activity; inde
           href={activity.videoUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 mt-3 text-xs text-red-600 hover:text-red-700 font-semibold"
+          className="inline-flex items-center gap-1.5 mt-3 text-xs text-[var(--color-error)] hover:text-[var(--color-error)]/80 font-semibold"
         >
           <Play className="w-4 h-4" />
           Watch Video

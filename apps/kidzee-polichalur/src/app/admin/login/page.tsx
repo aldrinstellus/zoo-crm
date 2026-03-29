@@ -37,16 +37,16 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
           <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-primary-dark)] rounded-full flex items-center justify-center mx-auto mb-4">
               <Lock className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-800">Admin Login</h1>
-            <p className="text-gray-500 text-sm mt-1">Enter password to manage activities</p>
+            <h1 className="text-2xl font-extrabold text-[var(--color-text)]">Admin Login</h1>
+            <p className="text-[var(--color-text-secondary)] text-sm mt-1">Enter password to manage activities</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                 Password
               </label>
               <div className="relative">
@@ -56,7 +56,7 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter admin password"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none transition-all text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-sm"
                   required
                 />
                 <button
@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-pink-600 transition-all disabled:opacity-50 shadow-md"
+              className="w-full py-3 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white font-bold rounded-xl hover:from-orange-600 hover:to-pink-600 transition-all disabled:opacity-50 shadow-md"
             >
               {loading ? "Logging in..." : "Login"}
             </button>

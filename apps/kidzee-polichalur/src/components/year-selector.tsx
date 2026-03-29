@@ -11,8 +11,8 @@ export function YearSelector({ years, activeYear }: { years: number[]; activeYea
         className={cn(
           "px-4 py-2 rounded-full text-sm font-semibold transition-all",
           !activeYear
-            ? "bg-orange-500 text-white shadow-md"
-            : "bg-white text-gray-600 hover:bg-orange-100 border border-gray-200"
+            ? "bg-[var(--color-primary)] text-white shadow-md"
+            : "bg-white text-gray-600 hover:bg-[var(--color-primary-light)]/20 border border-gray-200"
         )}
       >
         All Years
@@ -24,8 +24,8 @@ export function YearSelector({ years, activeYear }: { years: number[]; activeYea
           className={cn(
             "px-4 py-2 rounded-full text-sm font-semibold transition-all",
             activeYear === year
-              ? "bg-orange-500 text-white shadow-md"
-              : "bg-white text-gray-600 hover:bg-orange-100 border border-gray-200"
+              ? "bg-[var(--color-primary)] text-white shadow-md"
+              : "bg-white text-gray-600 hover:bg-[var(--color-primary-light)]/20 border border-gray-200"
           )}
         >
           {year}

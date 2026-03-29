@@ -13,10 +13,10 @@ export default async function ActivitiesPage() {
     <div className="py-8 px-4">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-3">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--color-text)] mb-3">
             All Activities
           </h1>
-          <p className="text-gray-500">Browse all our preschool activities and events</p>
+          <p className="text-[var(--color-text-secondary)]">Browse all our preschool activities and events</p>
         </div>
 
         <div className="mb-8">
@@ -26,7 +26,7 @@ export default async function ActivitiesPage() {
         {sorted.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
             <div className="text-5xl mb-4">📭</div>
-            <p className="text-gray-500 text-lg">No activities found</p>
+            <p className="text-[var(--color-text-secondary)] text-lg">No activities found</p>
             <p className="text-gray-400 text-sm mt-1">Check back later for updates!</p>
           </div>
         ) : (

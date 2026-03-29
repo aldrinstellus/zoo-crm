@@ -118,13 +118,13 @@ export default function AdminDashboardPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-extrabold text-gray-800">Admin Dashboard</h1>
-            <p className="text-gray-500 text-sm mt-1">Manage Kidzee Polichalur activities</p>
+            <h1 className="text-3xl font-extrabold text-[var(--color-text)]">Admin Dashboard</h1>
+            <p className="text-[var(--color-text-secondary)] text-sm mt-1">Manage Kidzee Polichalur activities</p>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowForm(!showForm)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-pink-600 transition-all shadow-md text-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] text-white font-semibold rounded-xl hover:from-orange-600 hover:to-pink-600 transition-all shadow-md text-sm"
             >
               <Plus className="w-4 h-4" />
               Add Activity
@@ -142,14 +142,14 @@ export default function AdminDashboardPage() {
         {/* Add Activity Form */}
         {showForm && (
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <Upload className="w-5 h-5 text-orange-500" />
+            <h2 className="text-xl font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
+              <Upload className="w-5 h-5 text-[var(--color-primary)]" />
               Upload New Activity
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                     <FileText className="w-3.5 h-3.5 inline mr-1" />
                     Title *
                   </label>
@@ -158,12 +158,12 @@ export default function AdminDashboardPage() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="e.g., Annual Day Celebrations 2024"
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                     <Calendar className="w-3.5 h-3.5 inline mr-1" />
                     Date *
                   </label>
@@ -171,14 +171,14 @@ export default function AdminDashboardPage() {
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                   Description *
                 </label>
                 <textarea
@@ -186,20 +186,20 @@ export default function AdminDashboardPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe the activity..."
                   rows={3}
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm resize-none"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm resize-none"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                     Category *
                   </label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value as ActivityCategory)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm bg-white"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm bg-white"
                   >
                     {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
                       <option key={key} value={key}>
@@ -209,7 +209,7 @@ export default function AdminDashboardPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                  <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                     <Video className="w-3.5 h-3.5 inline mr-1" />
                     Video URL (optional)
                   </label>
@@ -218,13 +218,13 @@ export default function AdminDashboardPage() {
                     value={videoUrl}
                     onChange={(e) => setVideoUrl(e.target.value)}
                     placeholder="https://youtube.com/watch?v=..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">
+                <label className="block text-sm font-semibold text-[var(--color-text)]/80 mb-1">
                   <Tag className="w-3.5 h-3.5 inline mr-1" />
                   Tags (comma-separated)
                 </label>
@@ -233,7 +233,7 @@ export default function AdminDashboardPage() {
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
                   placeholder="e.g., sports, outdoor, fun, teamwork"
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-orange-400 focus:ring-2 focus:ring-orange-100 outline-none text-sm"
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none text-sm"
                 />
               </div>
 
@@ -241,7 +241,7 @@ export default function AdminDashboardPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2.5 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all disabled:opacity-50 text-sm shadow-md"
+                  className="px-6 py-2.5 bg-gradient-to-r from-[var(--color-success)] to-emerald-600 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all disabled:opacity-50 text-sm shadow-md"
                 >
                   {submitting ? "Saving..." : "Save Activity"}
                 </button>
@@ -264,20 +264,20 @@ export default function AdminDashboardPage() {
         {loading ? (
           <div className="text-center py-16">
             <div className="text-4xl mb-3 animate-bounce">🔄</div>
-            <p className="text-gray-500">Loading activities...</p>
+            <p className="text-[var(--color-text-secondary)]">Loading activities...</p>
           </div>
         ) : activities.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-gray-200">
             <div className="text-5xl mb-4">📭</div>
-            <p className="text-gray-500 text-lg">No activities yet</p>
+            <p className="text-[var(--color-text-secondary)] text-lg">No activities yet</p>
             <p className="text-gray-400 text-sm mt-1">Click &quot;Add Activity&quot; to get started!</p>
           </div>
         ) : (
           <div className="space-y-8">
             {sortedYears.map((year) => (
               <div key={year}>
-                <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-extrabold">
+                <h2 className="text-xl font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
+                  <span className="bg-[var(--color-primary)]/10 text-[var(--color-primary)] px-3 py-1 rounded-full text-sm font-extrabold">
                     {year}
                   </span>
                   <span className="text-gray-400 text-sm font-normal">
@@ -297,10 +297,10 @@ export default function AdminDashboardPage() {
                             {CATEGORY_EMOJIS[activity.category]}
                           </span>
                           <div className="min-w-0">
-                            <h3 className="font-semibold text-gray-800 text-sm truncate">
+                            <h3 className="font-semibold text-[var(--color-text)] text-sm truncate">
                               {activity.title}
                             </h3>
-                            <p className="text-xs text-gray-500 mt-0.5">
+                            <p className="text-xs text-[var(--color-text-secondary)] mt-0.5">
                               {new Date(activity.date).toLocaleDateString("en-IN", {
                                 day: "numeric",
                                 month: "short",
