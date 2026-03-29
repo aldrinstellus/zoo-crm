@@ -883,7 +883,7 @@ export default function AdminDashboardPage() {
                 {/* Activities by Year */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                   <h3 className="text-base font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
-                    <CalendarBlank size={18} weight="duotone" style={{ color: "var(--color-primary)" }} />
+                    <CalendarBlank size={18} weight="duotone" color="var(--color-primary)" />
                     Activities by Year
                   </h3>
                   {activitiesByYear.length === 0 ? (
@@ -915,7 +915,7 @@ export default function AdminDashboardPage() {
                 {/* Activities by Category */}
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                   <h3 className="text-base font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
-                    <Tag size={18} weight="duotone" style={{ color: "var(--color-primary)" }} />
+                    <Tag size={18} weight="duotone" color="var(--color-primary)" />
                     Activities by Category
                   </h3>
                   {activitiesByCategory.length === 0 ? (
@@ -956,7 +956,7 @@ export default function AdminDashboardPage() {
               {/* Social Posts Summary */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mt-6">
                 <h3 className="text-base font-bold text-[var(--color-text)] mb-4 flex items-center gap-2">
-                  <ShareNetwork size={18} weight="duotone" style={{ color: "var(--color-primary)" }} />
+                  <ShareNetwork size={18} weight="duotone" color="var(--color-primary)" />
                   Social Posts Summary
                 </h3>
                 {socialSummary.total === 0 ? (
