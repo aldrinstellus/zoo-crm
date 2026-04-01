@@ -106,7 +106,12 @@ export function isActiveStatus(status: string | null): boolean {
 // ── Date ──
 export function normalizeDate(raw: unknown): string | null {
   if (!raw) return null;
-  if (raw instanceof Date) return raw.toISOString().split('T')[0];
+  if (raw instanceof Date) {
+    // SheetJS cellDates produces dates off by -1 day due to serial number conversion.
+    // Add 1 day to compensate.
+    const fixed = new Date(raw.getTime() + 86400000);
+    return fixed.toISOString().split('T')[0];
+  }
   const s = String(raw).trim();
   // ISO format already
   if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.split('T')[0];

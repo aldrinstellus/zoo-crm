@@ -31,7 +31,6 @@ function num(v: unknown): number | null {
 }
 
 function dateStr(v: unknown): string | null {
-  if (v instanceof Date) return v.toISOString().split('T')[0];
   return normalizeDate(v);
 }
 
