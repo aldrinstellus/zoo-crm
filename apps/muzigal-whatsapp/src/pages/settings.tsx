@@ -3,6 +3,7 @@ import { Wifi, Building2, Zap, Database, AlertCircle, CheckCircle, RefreshCw } f
 import { activeApi as api } from '../api/client';
 import { cn } from '../lib/utils';
 import { Card } from '@zoo/ui';
+import { Button } from '../components/ui/form';
 import ConnectionSetup from '../components/settings/ConnectionSetup';
 import BusinessProfile from '../components/settings/BusinessProfile';
 import AutomationConfig from '../components/settings/AutomationConfig';
@@ -120,7 +121,7 @@ export default function Settings() {
       {error && (
         <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
           <AlertCircle size={14} />{error}
-          <button onClick={() => setError('')} className="ml-auto text-red-400 hover:text-red-600">&times;</button>
+          <Button variant="ghost" className="ml-auto p-0 text-red-400 hover:text-red-600" onClick={() => setError('')}>&times;</Button>
         </div>
       )}
       {success && (
@@ -195,11 +196,10 @@ export default function Settings() {
       <Card
         title="System Health"
         action={
-          <button onClick={checkHealth} disabled={checkingHealth}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-100 border border-zinc-200 rounded-lg transition-colors disabled:opacity-50">
+          <Button variant="secondary" className="px-3 py-1.5 text-xs" onClick={checkHealth} disabled={checkingHealth}>
             <RefreshCw size={12} className={checkingHealth ? 'animate-spin' : ''} />
             Check
-          </button>
+          </Button>
         }
       >
         {health ? (

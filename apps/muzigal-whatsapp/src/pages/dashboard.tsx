@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Send, MessageCircle, Users, CheckCircle, AlertCircle, BookOpen, Clock } from 'lucide-react';
 import { activeApi as api } from '../api/client';
 import { Card, StatCard } from '@zoo/ui';
+import { Button } from '../components/ui/form';
 import { cn, formatDate } from '../lib/utils';
 import type { MessageLogEntry, Student, Enquiry } from '../types';
 
@@ -101,27 +102,18 @@ export default function Dashboard() {
 
       {/* Quick Actions */}
       <div className="flex flex-wrap gap-3">
-        <button
-          onClick={() => navigate('/dashboard/broadcast')}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors"
-        >
+        <Button onClick={() => navigate('/dashboard/broadcast')}>
           <Send size={14} />
           Send Broadcast
-        </button>
-        <button
-          onClick={() => navigate('/dashboard/test')}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-lg transition-colors"
-        >
+        </Button>
+        <Button variant="secondary" onClick={() => navigate('/dashboard/test')}>
           <MessageCircle size={14} />
           Send Test
-        </button>
-        <button
-          onClick={() => navigate('/dashboard/students')}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-lg transition-colors"
-        >
+        </Button>
+        <Button variant="secondary" onClick={() => navigate('/dashboard/students')}>
           <BookOpen size={14} />
           View Students
-        </button>
+        </Button>
       </div>
 
       {/* Message Log */}
