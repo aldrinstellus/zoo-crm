@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { Upload, Database, Link, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import { Card } from '@zoo/ui';
 import { Switch } from '../ui/Switch';
+import { Input, Select, Button, Label } from '../ui/form';
 import { parseExcelToDataset } from '../../data/excelParser';
 import type { DataSourceConfig } from '../../types';
 import seedMeta from '../../data/seed.json';
@@ -94,11 +95,10 @@ export default function DataSource({ config, onChange, onSave, saving }: Props) 
           <p className="text-xs text-zinc-500">Upload a new Excel migration file (.xlsx) to update student, enquiry, and batch data. The file is parsed entirely in your browser — nothing is uploaded to a server.</p>
           <div className="flex items-center gap-3">
             <input ref={fileInputRef} type="file" accept=".xlsx,.xls" onChange={handleImport} className="hidden" />
-            <button onClick={() => fileInputRef.current?.click()} disabled={importing}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-lg transition-colors disabled:opacity-50">
+            <Button variant="secondary" onClick={() => fileInputRef.current?.click()} disabled={importing}>
               {importing ? <Loader2 size={14} className="animate-spin" /> : <Upload size={14} />}
               {importing ? 'Parsing...' : 'Choose .xlsx File'}
-            </button>
+            </Button>
           </div>
           {importResult && (
             <div className="flex items-center gap-2 p-3 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-xs">
@@ -118,15 +118,15 @@ export default function DataSource({ config, onChange, onSave, saving }: Props) 
         <div className="space-y-4">
           <p className="text-xs text-zinc-500">Connect to a Google Sheet for live data. The backend reads directly from the sheet on every API call, so data is always up to date.</p>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Google Sheet URL</label>
+            <Label>Google Sheet URL</Label>
             <div className="flex gap-2">
               <div className="relative flex-1">
                 <Link size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" />
-                <input
+                <Input
                   value={config.googleSheetUrl}
                   onChange={(e) => update({ googleSheetUrl: e.target.value })}
                   placeholder="https://docs.google.com/spreadsheets/d/..."
-                  className="w-full pl-9 pr-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="pl-9"
                 />
               </div>
             </div>
@@ -143,15 +143,14 @@ export default function DataSource({ config, onChange, onSave, saving }: Props) 
 
           {config.autoSyncEnabled && (
             <div className="pt-2 border-t border-zinc-100">
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Sync Interval</label>
-              <select value={config.autoSyncIntervalMinutes} onChange={(e) => update({ autoSyncIntervalMinutes: parseInt(e.target.value) })}
-                className="px-3 py-2 border border-zinc-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+              <Label>Sync Interval</Label>
+              <Select value={config.autoSyncIntervalMinutes} onChange={(e) => update({ autoSyncIntervalMinutes: parseInt(e.target.value) })}>
                 <option value={15}>Every 15 minutes</option>
                 <option value={30}>Every 30 minutes</option>
                 <option value={60}>Every hour</option>
                 <option value={360}>Every 6 hours</option>
                 <option value={1440}>Once a day</option>
-              </select>
+              </Select>
             </div>
           )}
 
@@ -163,11 +162,10 @@ export default function DataSource({ config, onChange, onSave, saving }: Props) 
 
       {/* Save */}
       <div className="flex justify-end">
-        <button onClick={onSave} disabled={saving}
-          className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-50">
+        <Button variant="primary" onClick={onSave} disabled={saving} className="px-5">
           {saving ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
           {saving ? 'Saving...' : 'Save Data Settings'}
-        </button>
+        </Button>
       </div>
     </div>
   );

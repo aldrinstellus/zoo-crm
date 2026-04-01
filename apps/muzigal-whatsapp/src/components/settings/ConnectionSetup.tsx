@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Wifi, WifiOff, CheckCircle, AlertCircle, Loader2, Eye, EyeOff, Copy, ExternalLink } from 'lucide-react';
 import { Card } from '@zoo/ui';
 import { cn } from '../../lib/utils';
+import { Input, Select, Textarea, Button, Label } from '../ui/form';
 import type { ProviderConfig, Provider, TokenType, ConnectionTestResult } from '../../types';
 
 const PROVIDERS: { value: Provider; label: string; description: string }[] = [
@@ -67,14 +68,10 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
             <p className="text-xs text-zinc-400 mt-0.5">Last tested: {new Date(config.lastTestedAt).toLocaleString()}</p>
           )}
         </div>
-        <button
-          onClick={handleTest}
-          disabled={testing}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-50"
-        >
+        <Button variant="primary" onClick={handleTest} disabled={testing}>
           {testing ? <Loader2 size={14} className="animate-spin" /> : <Wifi size={14} />}
           {testing ? 'Testing...' : 'Test Connection'}
-        </button>
+        </Button>
       </div>
 
       {/* Test Result */}
@@ -118,7 +115,7 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
           <div className="space-y-4">
             {/* Token Type */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Token Type</label>
+              <Label>Token Type</Label>
               <div className="flex gap-2">
                 {(['temporary', 'system_user'] as TokenType[]).map(t => (
                   <button
@@ -141,61 +138,60 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
 
             {/* Access Token */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Access Token</label>
+              <Label>Access Token</Label>
               <div className="relative">
-                <input
+                <Input
                   type={showToken ? 'text' : 'password'}
                   value={config.whatsappToken}
                   onChange={(e) => update({ whatsappToken: e.target.value })}
                   placeholder="EAAM5X064FqABO..."
-                  className="w-full px-3 py-2 pr-20 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="pr-20 font-mono"
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
-                  <button onClick={() => setShowToken(!showToken)} className="p-1 text-zinc-400 hover:text-zinc-600" title={showToken ? 'Hide' : 'Show'}>
+                  <Button variant="ghost" className="p-1" onClick={() => setShowToken(!showToken)} title={showToken ? 'Hide' : 'Show'}>
                     {showToken ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
-                  <button onClick={() => navigator.clipboard.writeText(config.whatsappToken)} className="p-1 text-zinc-400 hover:text-zinc-600" title="Copy">
+                  </Button>
+                  <Button variant="ghost" className="p-1" onClick={() => navigator.clipboard.writeText(config.whatsappToken)} title="Copy">
                     <Copy size={14} />
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
 
             {/* Phone Number ID */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Phone Number ID</label>
-              <input
+              <Label>Phone Number ID</Label>
+              <Input
                 value={config.phoneNumberId}
                 onChange={(e) => update({ phoneNumberId: e.target.value })}
                 placeholder="1085043881349577"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="font-mono"
               />
               <p className="text-xs text-zinc-400 mt-1">Found in Meta Developer Dashboard &gt; WhatsApp &gt; API Setup</p>
             </div>
 
             {/* WABA ID */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">WhatsApp Business Account ID</label>
-              <input
+              <Label>WhatsApp Business Account ID</Label>
+              <Input
                 value={config.wabaId}
                 onChange={(e) => update({ wabaId: e.target.value })}
                 placeholder="284901754710853"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="font-mono"
               />
             </div>
 
             {/* API Version */}
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">API Version</label>
-              <select
+              <Label>API Version</Label>
+              <Select
                 value={config.apiVersion}
                 onChange={(e) => update({ apiVersion: e.target.value })}
-                className="px-3 py-2 border border-zinc-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="v21.0">v21.0 (Latest)</option>
                 <option value="v20.0">v20.0</option>
                 <option value="v19.0">v19.0</option>
-              </select>
+              </Select>
             </div>
 
             <div className="pt-2 flex items-center gap-2 text-xs text-zinc-400">
@@ -212,22 +208,19 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
         <Card title="Twilio WhatsApp">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Account SID</label>
-              <input value={config.twilioAccountSid} onChange={(e) => update({ twilioAccountSid: e.target.value })}
-                placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>Account SID</Label>
+              <Input value={config.twilioAccountSid} onChange={(e) => update({ twilioAccountSid: e.target.value })}
+                placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" className="font-mono" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Auth Token</label>
-              <input type="password" value={config.twilioAuthToken} onChange={(e) => update({ twilioAuthToken: e.target.value })}
-                placeholder="Your Twilio auth token"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>Auth Token</Label>
+              <Input type="password" value={config.twilioAuthToken} onChange={(e) => update({ twilioAuthToken: e.target.value })}
+                placeholder="Your Twilio auth token" className="font-mono" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">From Number</label>
-              <input value={config.twilioFromNumber} onChange={(e) => update({ twilioFromNumber: e.target.value })}
-                placeholder="whatsapp:+14155238886"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>From Number</Label>
+              <Input value={config.twilioFromNumber} onChange={(e) => update({ twilioFromNumber: e.target.value })}
+                placeholder="whatsapp:+14155238886" className="font-mono" />
               <p className="text-xs text-zinc-400 mt-1">Your Twilio WhatsApp-enabled phone number</p>
             </div>
           </div>
@@ -238,22 +231,19 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
         <Card title="Gupshup WhatsApp">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">API Key</label>
-              <input type="password" value={config.gupshupApiKey} onChange={(e) => update({ gupshupApiKey: e.target.value })}
-                placeholder="Your Gupshup API key"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>API Key</Label>
+              <Input type="password" value={config.gupshupApiKey} onChange={(e) => update({ gupshupApiKey: e.target.value })}
+                placeholder="Your Gupshup API key" className="font-mono" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Source Phone</label>
-              <input value={config.gupshupSourcePhone} onChange={(e) => update({ gupshupSourcePhone: e.target.value })}
-                placeholder="919876543210"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>Source Phone</Label>
+              <Input value={config.gupshupSourcePhone} onChange={(e) => update({ gupshupSourcePhone: e.target.value })}
+                placeholder="919876543210" className="font-mono" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">App Name</label>
-              <input value={config.gupshupAppName} onChange={(e) => update({ gupshupAppName: e.target.value })}
-                placeholder="MuzigalWhatsApp"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>App Name</Label>
+              <Input value={config.gupshupAppName} onChange={(e) => update({ gupshupAppName: e.target.value })}
+                placeholder="MuzigalWhatsApp" />
             </div>
           </div>
         </Card>
@@ -263,18 +253,17 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
         <Card title="Custom Webhook">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Webhook URL</label>
-              <input value={config.customWebhookUrl} onChange={(e) => update({ customWebhookUrl: e.target.value })}
-                placeholder="https://your-api.com/send-whatsapp"
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+              <Label>Webhook URL</Label>
+              <Input value={config.customWebhookUrl} onChange={(e) => update({ customWebhookUrl: e.target.value })}
+                placeholder="https://your-api.com/send-whatsapp" className="font-mono" />
               <p className="text-xs text-zinc-400 mt-1">Must accept POST with JSON body: {"{"} to: "+91...", message: "..." {"}"}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1">Custom Headers (JSON)</label>
-              <textarea value={config.customHeaders} onChange={(e) => update({ customHeaders: e.target.value })}
+              <Label>Custom Headers (JSON)</Label>
+              <Textarea value={config.customHeaders} onChange={(e) => update({ customHeaders: e.target.value })}
                 placeholder='{"Authorization": "Bearer your-token"}'
                 rows={3}
-                className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none" />
+                className="font-mono" />
             </div>
           </div>
         </Card>
@@ -284,33 +273,30 @@ export default function ConnectionSetup({ config, onChange, onSave, onTestConnec
       <Card title="Incoming Webhook">
         <div className="space-y-3">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Webhook URL (read-only)</label>
+            <Label>Webhook URL (read-only)</Label>
             <div className="flex gap-2">
-              <input value={config.webhookUrl} readOnly
-                className="flex-1 px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono bg-zinc-50 text-zinc-500" />
-              <button onClick={() => navigator.clipboard.writeText(config.webhookUrl)}
-                className="px-3 py-2 border border-zinc-200 rounded-lg hover:bg-zinc-50 transition-colors" title="Copy">
+              <Input value={config.webhookUrl} readOnly
+                className="flex-1 font-mono bg-zinc-50 text-zinc-500" />
+              <Button variant="secondary" className="px-3" onClick={() => navigator.clipboard.writeText(config.webhookUrl)} title="Copy">
                 <Copy size={14} className="text-zinc-500" />
-              </button>
+              </Button>
             </div>
             <p className="text-xs text-zinc-400 mt-1">Paste this into your Meta App's webhook configuration</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Webhook Verify Token</label>
-            <input value={config.webhookSecret} onChange={(e) => update({ webhookSecret: e.target.value })}
-              placeholder="your-webhook-secret"
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Webhook Verify Token</Label>
+            <Input value={config.webhookSecret} onChange={(e) => update({ webhookSecret: e.target.value })}
+              placeholder="your-webhook-secret" className="font-mono" />
           </div>
         </div>
       </Card>
 
       {/* Save */}
       <div className="flex justify-end">
-        <button onClick={onSave} disabled={saving}
-          className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-50">
+        <Button variant="primary" onClick={onSave} disabled={saving} className="px-5">
           {saving ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
           {saving ? 'Saving...' : 'Save Connection Settings'}
-        </button>
+        </Button>
       </div>
     </div>
   );

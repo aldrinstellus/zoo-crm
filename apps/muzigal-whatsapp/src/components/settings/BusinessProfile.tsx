@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Trash2, CheckCircle, Loader2, ChevronDown, ChevronUp } from 'lucide-react';
 import { Card } from '@zoo/ui';
 import { cn } from '../../lib/utils';
+import { Input, Select, Button, Label } from '../ui/form';
 import type { BusinessProfile as BusinessProfileType, AdminUser, Teacher, MessageTemplate } from '../../types';
 
 interface Props {
@@ -50,62 +51,55 @@ export default function BusinessProfile({ config, onChange, onSave, saving }: Pr
       <Card title="Academy Information">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Academy Name</label>
-            <input value={config.academyName} onChange={(e) => update({ academyName: e.target.value })}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Academy Name</Label>
+            <Input value={config.academyName} onChange={(e) => update({ academyName: e.target.value })} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Full Legal Name</label>
-            <input value={config.fullName} onChange={(e) => update({ fullName: e.target.value })}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Full Legal Name</Label>
+            <Input value={config.fullName} onChange={(e) => update({ fullName: e.target.value })} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Email</label>
-            <input type="email" value={config.email} onChange={(e) => update({ email: e.target.value })}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Email</Label>
+            <Input type="email" value={config.email} onChange={(e) => update({ email: e.target.value })} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Phone</label>
-            <input value={config.phone} onChange={(e) => update({ phone: e.target.value })}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Phone</Label>
+            <Input value={config.phone} onChange={(e) => update({ phone: e.target.value })} />
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Website</label>
-            <input value={config.website} onChange={(e) => update({ website: e.target.value })}
-              placeholder="https://"
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Website</Label>
+            <Input value={config.website} onChange={(e) => update({ website: e.target.value })} placeholder="https://" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Address</label>
-            <input value={config.address} onChange={(e) => update({ address: e.target.value })}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+            <Label>Address</Label>
+            <Input value={config.address} onChange={(e) => update({ address: e.target.value })} />
           </div>
         </div>
       </Card>
 
       {/* Admin Users */}
       <Card title="Admin Users" action={
-        <button onClick={addAdmin} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-emerald-600 hover:bg-emerald-50 border border-emerald-200 rounded-lg transition-colors">
+        <Button variant="secondary" className="px-3 py-1.5 text-xs" onClick={addAdmin}>
           <Plus size={12} /> Add Admin
-        </button>
+        </Button>
       }>
         <div className="space-y-3">
           {config.admins.map((admin, idx) => (
             <div key={idx} className="flex items-center gap-3 p-3 bg-zinc-50 rounded-lg">
               <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <input value={admin.name} onChange={(e) => updateAdmin(idx, { name: e.target.value })}
-                  placeholder="Name" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input value={admin.email} onChange={(e) => updateAdmin(idx, { email: e.target.value })}
-                  placeholder="email@example.com" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <select value={admin.role} onChange={(e) => updateAdmin(idx, { role: e.target.value as 'admin' | 'staff' })}
-                  className="px-2 py-1.5 border border-zinc-200 rounded text-sm bg-white">
+                <Input value={admin.name} onChange={(e) => updateAdmin(idx, { name: e.target.value })}
+                  placeholder="Name" className="px-2 py-1.5" />
+                <Input value={admin.email} onChange={(e) => updateAdmin(idx, { email: e.target.value })}
+                  placeholder="email@example.com" className="px-2 py-1.5" />
+                <Select value={admin.role} onChange={(e) => updateAdmin(idx, { role: e.target.value as 'admin' | 'staff' })}
+                  className="px-2 py-1.5">
                   <option value="admin">Admin</option>
                   <option value="staff">Staff</option>
-                </select>
+                </Select>
               </div>
-              <button onClick={() => removeAdmin(idx)} className="p-1.5 text-zinc-400 hover:text-red-500 transition-colors" title="Remove">
-                <Trash2 size={14} />
-              </button>
+              <Button variant="ghost" className="p-1.5" onClick={() => removeAdmin(idx)} title="Remove">
+                <Trash2 size={14} className="text-zinc-400 hover:text-red-500" />
+              </Button>
             </div>
           ))}
           {config.admins.length === 0 && <p className="text-sm text-zinc-400 text-center py-4">No admin users configured</p>}
@@ -114,26 +108,26 @@ export default function BusinessProfile({ config, onChange, onSave, saving }: Pr
 
       {/* Teachers */}
       <Card title="Teachers" action={
-        <button onClick={addTeacher} className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium text-emerald-600 hover:bg-emerald-50 border border-emerald-200 rounded-lg transition-colors">
+        <Button variant="secondary" className="px-3 py-1.5 text-xs" onClick={addTeacher}>
           <Plus size={12} /> Add Teacher
-        </button>
+        </Button>
       }>
         <div className="space-y-3">
           {config.teachers.map((teacher, idx) => (
             <div key={idx} className="flex items-center gap-3 p-3 bg-zinc-50 rounded-lg">
               <div className="flex-1 grid grid-cols-2 sm:grid-cols-4 gap-2">
-                <input value={teacher.name} onChange={(e) => updateTeacher(idx, { name: e.target.value })}
-                  placeholder="Name" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input value={teacher.email} onChange={(e) => updateTeacher(idx, { email: e.target.value })}
-                  placeholder="Email" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input value={teacher.phone} onChange={(e) => updateTeacher(idx, { phone: e.target.value })}
-                  placeholder="Phone" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
-                <input value={teacher.instrument} onChange={(e) => updateTeacher(idx, { instrument: e.target.value })}
-                  placeholder="Instrument" className="px-2 py-1.5 border border-zinc-200 rounded text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500" />
+                <Input value={teacher.name} onChange={(e) => updateTeacher(idx, { name: e.target.value })}
+                  placeholder="Name" className="px-2 py-1.5" />
+                <Input value={teacher.email} onChange={(e) => updateTeacher(idx, { email: e.target.value })}
+                  placeholder="Email" className="px-2 py-1.5" />
+                <Input value={teacher.phone} onChange={(e) => updateTeacher(idx, { phone: e.target.value })}
+                  placeholder="Phone" className="px-2 py-1.5" />
+                <Input value={teacher.instrument} onChange={(e) => updateTeacher(idx, { instrument: e.target.value })}
+                  placeholder="Instrument" className="px-2 py-1.5" />
               </div>
-              <button onClick={() => removeTeacher(idx)} className="p-1.5 text-zinc-400 hover:text-red-500 transition-colors" title="Remove">
-                <Trash2 size={14} />
-              </button>
+              <Button variant="ghost" className="p-1.5" onClick={() => removeTeacher(idx)} title="Remove">
+                <Trash2 size={14} className="text-zinc-400 hover:text-red-500" />
+              </Button>
             </div>
           ))}
         </div>
@@ -185,11 +179,10 @@ export default function BusinessProfile({ config, onChange, onSave, saving }: Pr
 
       {/* Save */}
       <div className="flex justify-end">
-        <button onClick={onSave} disabled={saving}
-          className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-50">
+        <Button variant="primary" onClick={onSave} disabled={saving} className="px-5">
           {saving ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
           {saving ? 'Saving...' : 'Save Business Profile'}
-        </button>
+        </Button>
       </div>
     </div>
   );
