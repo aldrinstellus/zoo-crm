@@ -30,7 +30,13 @@ async function request<T>(
   params?: Record<string, string>,
   body?: Record<string, unknown>
 ): Promise<ApiResponse<T>> {
-  const url = new URL(GAS_URL || PROXY_URL);
+  const base = GAS_URL || PROXY_URL;
+  let url: URL;
+  try {
+    url = base.startsWith('http') ? new URL(base) : new URL(base, window.location.origin);
+  } catch {
+    throw new Error('Backend not configured. Set VITE_GAS_URL in environment variables or switch to Demo mode.');
+  }
 
   if (method === 'GET') {
     url.searchParams.set('action', action);

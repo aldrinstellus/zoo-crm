@@ -59,7 +59,12 @@ export default function Login() {
         setError(res.data?.error || res.message || 'Invalid email or password.');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+      const msg = err instanceof Error ? err.message : 'Login failed. Please try again.';
+      if (msg.includes('Backend not configured') || msg.includes('Invalid API response')) {
+        setError('Backend not configured. Please set the VITE_GAS_URL environment variable in Vercel, or switch to Demo mode to explore the app.');
+      } else {
+        setError(msg);
+      }
     } finally {
       setLoading(false);
     }
