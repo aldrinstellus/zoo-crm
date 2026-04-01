@@ -1,14 +1,28 @@
-import { useEffect, useState, useRef } from 'react';
-import { Save, AlertCircle, CheckCircle, RefreshCw, Upload, Database } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Wifi, Building2, Zap, Database, AlertCircle, CheckCircle, RefreshCw } from 'lucide-react';
 import { activeApi as api } from '../api/client';
+import { cn } from '../lib/utils';
 import { Card } from '@zoo/ui';
-import { parseExcelToDataset } from '../data/excelParser';
-import seedMeta from '../data/seed.json';
+import ConnectionSetup from '../components/settings/ConnectionSetup';
+import BusinessProfile from '../components/settings/BusinessProfile';
+import AutomationConfig from '../components/settings/AutomationConfig';
+import DataSource from '../components/settings/DataSource';
+import type { AppSettings, ConnectionTestResult } from '../types';
+
+type Tab = 'connection' | 'business' | 'automation' | 'data';
+
+const TABS: { value: Tab; label: string; icon: typeof Wifi; description: string }[] = [
+  { value: 'connection', label: 'Connection', icon: Wifi, description: 'WhatsApp API provider & credentials' },
+  { value: 'business', label: 'Business', icon: Building2, description: 'Academy profile, admins & templates' },
+  { value: 'automation', label: 'Automation', icon: Zap, description: 'Scheduling, reminders & AI' },
+  { value: 'data', label: 'Data', icon: Database, description: 'Import, sync & data management' },
+];
 
 export default function Settings() {
-  const [config, setConfig] = useState<Record<string, string>>({});
+  const [tab, setTab] = useState<Tab>('connection');
+  const [settings, setSettings] = useState<AppSettings | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -16,43 +30,59 @@ export default function Settings() {
   const [health, setHealth] = useState<Record<string, unknown> | null>(null);
   const [checkingHealth, setCheckingHealth] = useState(false);
 
-  // Data import
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [importing, setImporting] = useState(false);
-  const [importResult, setImportResult] = useState('');
-
-  const meta = (seedMeta as { meta?: { generatedAt?: string; counts?: Record<string, number> } }).meta;
-
   useEffect(() => {
-    api.getConfig()
-      .then((res) => {
-        if (res.status === 'ok' && res.config) {
-          setConfig(res.config);
-        } else if (res.status === 'ok' && res.data) {
-          setConfig(res.data as Record<string, string>);
-        }
+    api.getSettings()
+      .then((res: { status: string; data?: AppSettings }) => {
+        if (res.status === 'ok' && res.data) setSettings(res.data);
       })
       .catch((err: Error) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSave = async (key: string, value: string) => {
-    setSaving(key);
+  const handleSave = async (section: Tab) => {
+    if (!settings) return;
+    setSaving(true);
     setError('');
     setSuccess('');
     try {
-      const res = await api.setConfig(key, value);
+      const sectionData: Partial<AppSettings> = {};
+      if (section === 'connection') sectionData.provider = settings.provider;
+      if (section === 'business') sectionData.business = settings.business;
+      if (section === 'automation') sectionData.automation = settings.automation;
+      if (section === 'data') sectionData.dataSource = settings.dataSource;
+
+      const res = await api.saveSettings(section, sectionData as Record<string, unknown>);
       if (res.status === 'ok') {
-        setSuccess(`"${key}" updated`);
+        setSuccess('Settings saved successfully');
         setTimeout(() => setSuccess(''), 3000);
       } else {
-        setError(res.message || 'Failed to update config');
+        setError(res.message || 'Failed to save');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : 'Save failed');
     } finally {
-      setSaving(null);
+      setSaving(false);
     }
+  };
+
+  const handleTestConnection = async (): Promise<ConnectionTestResult> => {
+    const res = await api.testConnection();
+    if (res.status === 'ok' && res.data) {
+      // Update local state with connection status
+      if (settings) {
+        const result = res.data as ConnectionTestResult;
+        setSettings({
+          ...settings,
+          provider: {
+            ...settings.provider,
+            connectionStatus: result.success ? 'connected' : 'error',
+            lastTestedAt: new Date().toISOString(),
+          },
+        });
+        return result;
+      }
+    }
+    return { success: false, message: 'Connection test failed' };
   };
 
   const checkHealth = async () => {
@@ -67,33 +97,30 @@ export default function Settings() {
     }
   };
 
-  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setImporting(true);
-    setImportResult('');
-    setError('');
-    try {
-      const buffer = await file.arrayBuffer();
-      const dataset = parseExcelToDataset(buffer, file.name);
-      setImportResult(
-        `Parsed "${file.name}": ${dataset.meta.counts.students} students, ` +
-        `${dataset.meta.counts.enquiries} enquiries, ${dataset.meta.counts.batches} batches, ` +
-        `${dataset.meta.counts.classes} classes`
-      );
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to parse Excel file');
-    } finally {
-      setImporting(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
-  };
+  if (loading) {
+    return (
+      <div className="space-y-6 max-w-3xl">
+        <div className="h-14 bg-zinc-100 rounded-xl animate-pulse" />
+        <div className="h-96 bg-zinc-100 rounded-xl animate-pulse" />
+      </div>
+    );
+  }
+
+  if (!settings) {
+    return (
+      <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+        <AlertCircle size={14} />Failed to load settings
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-3xl">
+      {/* Alerts */}
       {error && (
         <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
           <AlertCircle size={14} />{error}
+          <button onClick={() => setError('')} className="ml-auto text-red-400 hover:text-red-600">&times;</button>
         </div>
       )}
       {success && (
@@ -102,99 +129,74 @@ export default function Settings() {
         </div>
       )}
 
-      {/* Data Management */}
-      <Card title="Data Management">
-        <div className="space-y-4">
-          {/* Current data summary */}
-          <div className="flex items-start gap-3 p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
-            <Database size={16} className="text-zinc-500 mt-0.5 shrink-0" />
-            <div className="text-sm">
-              <p className="font-medium text-zinc-700">Current Data</p>
-              {meta?.counts ? (
-                <div className="mt-1 text-zinc-500 space-y-0.5">
-                  <p>{meta.counts.students} students · {meta.counts.enquiries} enquiries · {meta.counts.batches} batches · {meta.counts.classes} classes</p>
-                  {meta.generatedAt && (
-                    <p className="text-xs text-zinc-400">Generated: {new Date(meta.generatedAt).toLocaleString()}</p>
-                  )}
-                </div>
-              ) : (
-                <p className="text-zinc-400 mt-1">No seed data loaded</p>
-              )}
-            </div>
-          </div>
-
-          {/* Import Excel */}
-          <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-2">Import Excel File</label>
-            <div className="flex items-center gap-3">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".xlsx,.xls"
-                onChange={handleImport}
-                className="hidden"
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                disabled={importing}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-lg transition-colors disabled:opacity-50"
-              >
-                <Upload size={14} />
-                {importing ? 'Parsing...' : 'Choose .xlsx File'}
-              </button>
-              <p className="text-xs text-zinc-400">Upload a new Excel migration file to preview data</p>
-            </div>
-            {importResult && (
-              <div className="mt-2 flex items-center gap-2 p-2 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-700 text-xs">
-                <CheckCircle size={12} />{importResult}
-              </div>
+      {/* Tab Navigation */}
+      <div className="flex gap-1 p-1 bg-zinc-100 rounded-xl">
+        {TABS.map((t) => (
+          <button
+            key={t.value}
+            onClick={() => setTab(t.value)}
+            className={cn(
+              'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 text-sm font-medium rounded-lg transition-all',
+              tab === t.value
+                ? 'bg-white text-zinc-900 shadow-sm'
+                : 'text-zinc-500 hover:text-zinc-700'
             )}
-          </div>
-        </div>
-      </Card>
+          >
+            <t.icon size={16} />
+            <span className="hidden sm:inline">{t.label}</span>
+          </button>
+        ))}
+      </div>
 
-      {/* Config */}
-      <Card title="WhatsApp Configuration">
-        {loading ? (
-          <div className="space-y-3">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-10 bg-zinc-100 rounded animate-pulse" />
-            ))}
-          </div>
-        ) : Object.keys(config).length === 0 ? (
-          <p className="text-sm text-zinc-400">No configuration found</p>
-        ) : (
-          <div className="space-y-3">
-            {Object.entries(config).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-3">
-                <label className="w-48 shrink-0 text-sm font-medium text-zinc-600">{key}</label>
-                <input
-                  value={value}
-                  onChange={(e) => setConfig((prev) => ({ ...prev, [key]: e.target.value }))}
-                  className="flex-1 px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                />
-                <button
-                  onClick={() => handleSave(key, value)}
-                  disabled={saving === key}
-                  className="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors disabled:opacity-50"
-                >
-                  <Save size={16} />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
+      {/* Tab Description */}
+      <p className="text-xs text-zinc-400">
+        {TABS.find(t => t.value === tab)?.description}
+      </p>
 
-      {/* System Health */}
+      {/* Tab Content */}
+      {tab === 'connection' && (
+        <ConnectionSetup
+          config={settings.provider}
+          onChange={(provider) => setSettings({ ...settings, provider })}
+          onSave={() => handleSave('connection')}
+          onTestConnection={handleTestConnection}
+          saving={saving}
+        />
+      )}
+
+      {tab === 'business' && (
+        <BusinessProfile
+          config={settings.business}
+          onChange={(business) => setSettings({ ...settings, business })}
+          onSave={() => handleSave('business')}
+          saving={saving}
+        />
+      )}
+
+      {tab === 'automation' && (
+        <AutomationConfig
+          config={settings.automation}
+          onChange={(automation) => setSettings({ ...settings, automation })}
+          onSave={() => handleSave('automation')}
+          saving={saving}
+        />
+      )}
+
+      {tab === 'data' && (
+        <DataSource
+          config={settings.dataSource}
+          onChange={(dataSource) => setSettings({ ...settings, dataSource })}
+          onSave={() => handleSave('data')}
+          saving={saving}
+        />
+      )}
+
+      {/* System Health — always visible */}
       <Card
         title="System Health"
         action={
-          <button
-            onClick={checkHealth}
-            disabled={checkingHealth}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-100 border border-zinc-200 rounded-lg transition-colors disabled:opacity-50"
-          >
+          <button onClick={checkHealth} disabled={checkingHealth}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-600 hover:bg-zinc-100 border border-zinc-200 rounded-lg transition-colors disabled:opacity-50">
             <RefreshCw size={12} className={checkingHealth ? 'animate-spin' : ''} />
             Check
           </button>
@@ -205,7 +207,7 @@ export default function Settings() {
             {JSON.stringify(health, null, 2)}
           </pre>
         ) : (
-          <p className="text-sm text-zinc-400">Click "Check" to run health check</p>
+          <p className="text-sm text-zinc-400">Click "Check" to run a full system health check</p>
         )}
       </Card>
     </div>
