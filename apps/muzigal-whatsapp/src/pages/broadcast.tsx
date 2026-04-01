@@ -295,19 +295,18 @@ export default function Broadcast() {
 
           {/* Message */}
           <div>
-            <label className="block text-sm font-medium text-zinc-700 mb-1">Message</label>
-            <textarea
+            <Label>Message</Label>
+            <Textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
               rows={4}
-              className="w-full px-3 py-2 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
             />
           </div>
 
           {/* Quick templates */}
           <div>
-            <label className="block text-xs font-medium text-zinc-400 mb-1.5">Quick Templates</label>
+            <Label className="text-xs !text-zinc-400 mb-1.5">Quick Templates</Label>
             <div className="flex flex-wrap gap-1.5">
               {[
                 { label: 'Test', text: 'CRM test: If you receive this, WhatsApp integration is working.' },
@@ -332,14 +331,10 @@ export default function Broadcast() {
             <p className="text-xs text-zinc-400">
               {recipientCount} recipient{recipientCount !== 1 ? 's' : ''}
             </p>
-            <button
-              onClick={handleSend}
-              disabled={sending || !message.trim() || recipientCount === 0}
-              className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors disabled:opacity-50"
-            >
+            <Button onClick={handleSend} disabled={sending || !message.trim() || recipientCount === 0} className="px-5">
               <Send size={14} />
               {sending ? 'Sending...' : 'Send Message'}
-            </button>
+            </Button>
           </div>
         </div>
       </Card>
