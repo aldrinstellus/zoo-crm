@@ -1,5 +1,4 @@
 import { Bell, Menu } from 'lucide-react';
-import { getInitials } from '../../lib/utils';
 import { isDemo } from '../../lib/mode';
 
 interface TopBarProps {
@@ -26,15 +25,10 @@ export default function TopBar({ title, onMenuClick }: TopBarProps) {
           )}
         </div>
 
-        <div className="flex items-center gap-2">
-          <button className="p-2 rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors relative">
-            <Bell size={18} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full" />
-          </button>
-          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs font-semibold ml-1">
-            {getInitials('Admin User')}
-          </div>
-        </div>
+        <button className="p-2 rounded-lg text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors relative">
+          <Bell size={18} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full" />
+        </button>
       </div>
     </header>
   );
