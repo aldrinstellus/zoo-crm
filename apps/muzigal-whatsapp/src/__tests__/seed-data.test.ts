@@ -195,18 +195,16 @@ describe('Dashboard metrics accuracy', () => {
 // ════════════════════════════════════════════════════════════
 
 describe('Guide page', () => {
-  it('guide.tsx exists and has all 8 sections', () => {
+  it('guide.tsx exists and has all 5 tabbed sections', () => {
     const { readFileSync } = require('fs');
     const { join } = require('path');
     const content = readFileSync(join(__dirname, '..', 'pages', 'guide.tsx'), 'utf-8');
-    expect(content).toContain('Getting Started');
-    expect(content).toContain('Dashboard');
-    expect(content).toContain('Students');
-    expect(content).toContain('Broadcast');
-    expect(content).toContain('Test Message');
-    expect(content).toContain('Settings');
-    expect(content).toContain('Limitation');
-    expect(content).toContain('Adapting');
+    expect(content).toContain('QuickStartTab');
+    expect(content).toContain('MessagingTab');
+    expect(content).toContain('ConfigurationTab');
+    expect(content).toContain('DataTab');
+    expect(content).toContain('TroubleshootingTab');
+    expect(content).toContain('WhatsApp Power Guide');
   });
 
   it('guide route is wired in App.tsx', () => {
