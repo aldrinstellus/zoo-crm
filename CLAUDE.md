@@ -33,3 +33,14 @@ cd apps/muzigal-borewell && npm run build
 - Muzigal & Kidzee use Next.js 16 (breaking changes — check `node_modules/next/dist/docs/`)
 - Backend is Google Apps Script (clasp deploy)
 - All apps deploy to Vercel separately (each client = separate deployment)
+
+---
+
+## Claude Code conventions *(added 2026-05-15)*
+
+- **Project:** zoo-crm  ·  Location: `/Users/aldrin-mac-mini/zoo-crm`
+- **Savepoint:** writes to `./SAVEPOINT.md` (this directory)
+- **Save to KB:** writes to this project's `knowledge.md` in the Claude memory dir (create on first trigger if absent); enumerate in next savepoint
+- **Save to global KB:** writes to `~/.claude/projects/-Users-aldrin-mac-mini/memory/10-global/knowledge.md`
+- **Resume:** read `./SAVEPOINT.md` first, then any project-specific reference docs
+- See the global pattern: `~/.claude/projects/-Users-aldrin-mac-mini/memory/10-global/rules/global-project-claude-md-pattern.md`
